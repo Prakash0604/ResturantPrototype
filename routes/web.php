@@ -16,12 +16,12 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/',[AuthController::class,'indexview']);
-Route::post('/',[AuthController::class,'storeindex']);
+Route::get('/',[LandingPage::class,'LandingPage']);
+Route::get('/login',[AuthController::class,'indexview']);
+Route::post('/login',[AuthController::class,'storeindex']);
 Route::get('/sign-up',[AuthController::class,'index']);
 Route::post('/sign-up',[AuthController::class,'storeSignup']);
 Route::get('/email/verification/{token}',[AuthController::class,'verification']);
-Route::get('/kitchen-chef',[LandingPage::class,'LandingPage']);
 Route::middleware('is_admin')->group(function(){
     Route::get('/admin/dashboard',[AdminController::class ,'dashboard']);
     Route::get('/admin/users/table',[AdminController::class,'userstable']);
@@ -35,6 +35,7 @@ Route::middleware('is_admin')->group(function(){
     Route::post('/admin/category/edit/',[AdminController::class,'updateCat']);
     Route::get('/admin/category/delete/{id}',[AdminController::class,'deleteCat']);
     Route::get('/logout',[AuthController::class,'logout']);
+    Route::get('/admin/employee/list',[AdminController::class,'employeeAdd']);
 });
 
 

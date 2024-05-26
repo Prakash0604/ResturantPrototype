@@ -110,7 +110,7 @@
                   <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
                 </div>
             </form>
-            <p class="text-sm mt-3 mb-0">Already have an account? <a href="javascript:;" class="text-dark font-weight-bolder">Sign in</a></p>
+            <p class="text-sm mt-3 mb-0">Already have an account? <a href="{{ url('login') }}" class="text-dark font-weight-bolder">Sign In</a></p>
             </div>
           </div>
         </div>
