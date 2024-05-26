@@ -56,12 +56,17 @@ class AdminController extends Controller
         return back()->with('message', 'Profile has been updated');
     }
 
-    public function addMenu()
+    public function addMenu(Request $request)
     {
+        $search=$request->search;
         $category=category::all();
-        // $menuitems=menu_item::with('category')->get();
-        $menuitems=menu_item::with('category')->get();
-        // return $menuitems;
+        if($search!=""){
+            $menuitems=menu_item::where('category_id',$search)->get();
+
+        }else{
+
+            $menuitems=menu_item::with('category')->get();
+        }
         return view('pages.menu-item',compact('category','menuitems'));
     }
 
@@ -143,5 +148,9 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, "message" => $e->getMessage()]);
         }
+    }
+
+    public function employeeAdd(){
+        return view('pages.employee');
     }
 }

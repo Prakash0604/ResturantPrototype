@@ -5,13 +5,13 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Delicious Bootstrap Template - Index</title>
+  <title>Kitchen Chef-Jay Prakash Chaudhary</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="userasset/img/favicon.png" rel="icon">
-  <link href="userasset/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="{{ asset('userasset/img/logo.png') }}" rel="icon">
+  <link href="{{ asset('userasset/img/logo.png') }}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i" rel="stylesheet">
@@ -73,7 +73,7 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-      <a href="#book-a-table" class="book-a-table-btn scrollto">Book a table</a>
+      <a href="{{ url('sign-up') }}" class="book-a-table-btn scrollto">Book a table</a>
 
     </div>
   </header><!-- End Header -->
@@ -152,7 +152,6 @@
         <div class="row">
 
           <div class="col-lg-5 align-items-stretch video-box" style='background-image: url("userasset/img/about.jpg");'>
-            <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox play-btn mb-4"></a>
           </div>
 
           <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch">

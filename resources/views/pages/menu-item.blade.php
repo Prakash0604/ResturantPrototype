@@ -77,6 +77,28 @@
                     <div class="card-header pb-0">
                         <h6>Menu Item</h6>
                     </div>
+                     <div class="card-header pb-0">
+                        <h6>
+                            <form method="get">
+                                <div class="row d-flex">
+                                {{-- <div class="mb-3"> --}}
+                                    <label for="" class="form-label">Category</label>
+                                    <select
+                                        class="form-select col-3"
+                                        name="search"
+                                    >
+                                        <option value="">Select to filter</option>
+                                        @foreach ($category as $cat)
+                                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                        @endforeach
+                                    </select>
+                                {{-- </div> --}}
+                                <button class="btn btn-primary">Filter <i class="bi bi-list"></i></button>
+                            </div>
+                            </form>
+                        </h6>
+                    </div>
+
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0">

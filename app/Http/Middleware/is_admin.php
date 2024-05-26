@@ -19,6 +19,6 @@ class is_admin
         if(Auth::user())
         return $next($request);
          else
-         return redirect('/')->with('message','Please login first');
+         return redirect('/login')->with('message','Please login first');
     }
 }
