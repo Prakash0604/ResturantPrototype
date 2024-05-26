@@ -36,6 +36,10 @@ Route::middleware('is_admin')->group(function(){
     Route::get('/admin/category/delete/{id}',[AdminController::class,'deleteCat']);
     Route::get('/logout',[AuthController::class,'logout']);
     Route::get('/admin/employee/list',[AdminController::class,'employeeAdd']);
+    Route::get('/admin/event/list',[AdminController::class,'event']);
+    Route::post('/admin/event/add',[AdminController::class,'eventAdd']);
+    Route::get('/admin/event/edit/{id}',[AdminController::class,'editEvent']);
+    Route::post('/admin/event/edit/',[AdminController::class,'updateEvent']);
 });
 
 
