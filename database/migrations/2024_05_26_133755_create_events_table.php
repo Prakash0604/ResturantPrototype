@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_items', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('users_id');
-            $table->foreign('users_id')->references('id')->on('users')->onUpdate('cascade');
-            $table->date('date');
+            $table->string('event_image');
+            $table->string('event_name');
+            $table->text('event_desc');
+            $table->string('event_price');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_items');
+        Schema::dropIfExists('events');
     }
 };

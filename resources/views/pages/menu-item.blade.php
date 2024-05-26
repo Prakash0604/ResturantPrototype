@@ -87,7 +87,7 @@
                                         class="form-select col-3"
                                         name="search"
                                     >
-                                        <option value="">Select to filter</option>
+                                        <option value="">Show All</option>
                                         @foreach ($category as $cat)
                                         <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                                         @endforeach
@@ -101,7 +101,7 @@
 
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
+                            <table class="table align-items-center mb-0 table-bordered">
                                 <thead>
                                     <tr>
                                         <th
