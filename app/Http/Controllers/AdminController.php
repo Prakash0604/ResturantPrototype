@@ -7,11 +7,10 @@ use App\Models\event;
 use App\Models\category;
 use App\Models\menu_item;
 use Illuminate\Http\Request;
-use PhpParser\Node\Expr\FuncCall;
 use PHPUnit\Framework\fileExists;
+
 use Illuminate\Support\Facades\Auth;
 
-use Illuminate\Database\Eloquent\Casts\JsonileExists;
 
 class AdminController extends Controller
 {
@@ -19,7 +18,8 @@ class AdminController extends Controller
     public function dashboard()
     {
         $totaluser = User::where("position", "users")->count();
-        return view('pages.dashboard', compact('totaluser'));
+        $totalemployee=User::where("position","employee")->count();
+        return view('pages.dashboard', compact('totaluser','totalemployee'));
     }
     // ================Dashboard Controller End=======================
 
@@ -53,7 +53,7 @@ class AdminController extends Controller
         $file = $request->images;
         if ($file != "") {
             $filename = time() . '-' . $file->getclientOriginalName();
-            $file->storeAs('public/images/' . $filename);
+            $file->storeAs('public/teams/' . $filename);
             // $users->images=$filename;
         }
         User::where('email', $request->email)->update(
@@ -171,13 +171,6 @@ class AdminController extends Controller
     // ================Category Controller End=======================
 
 
-
-    // ================Employee  Controller  Start =======================
-    public function employeeAdd(){
-        return view('pages.employee');
-    }
-    // ================Employee  Controller  Start =======================
-
     // ========Event Controller start===============
 
     public function event(){
@@ -262,4 +255,105 @@ class AdminController extends Controller
         }
     }
     // ========Event Controller End===============
+
+    // =======Teams Member Start =================
+
+    public function Employeelist(){
+        $employees=User::where('position','employee')->get();
+        return view('pages.employee',compact('employees'));
+    }
+
+
+    public function addEmployee(Request $request){
+        try{
+            $request->validate([
+                'name'=>'required|string|min:3',
+                'image'=>'mimes:jpg,png,jpeg',
+                'email'=>'required|email|unique:users',
+                'phone'=>'required|min:10|numeric',
+                'address'=>'required',
+                'designation'=>'required|string|min:3',
+                'password'=>'required|max:6'
+            ]);
+            $employee=new User();
+            $employee->name=$request->name;
+            $image=$request->file('image');
+            if($image){
+
+                $imagepath=time().'.'.$image->getClientOriginalName();
+                $image->storeAs('public/teams/'.$imagepath);
+                $employee->images=$imagepath;
+            }
+            $employee->address=$request->address;
+            $employee->password=$request->password;
+            $employee->email=$request->email;
+            $employee->phone=$request->phone;
+            $employee->position="employee";
+            $employee->designation=$request->designation;
+            $employee->is_verified=1;
+            $employee->save();
+            return response()->json(['success'=>true]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+    }
+    public function editEmployee($id){
+        try{
+            $id=User::find($id);
+            return response()->json(['success'=>true,'data'=>$id]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+    }
+
+    public function updateEmployee(Request $request){
+        try{
+            $id=$request->id;
+            $users=User::find($id);
+            $current_image=$users->images;
+            if($request->hasFile('edit_images')){
+                if($current_image && file_exists(public_path('storage/teams/'.$current_image))){
+                    unlink(public_path('storage/teams/'.$current_image));
+                }
+                $image=$request->file('edit_images');
+                $current_image=time().'.'.$image->getClientOriginalName();
+                $image->storeAs('public/teams/'.$current_image);
+            }
+           $data= request(['edit_name','edit_address','edit_phone','edit_email','edit_designation',$current_image]);
+            // $users->update([
+            //     'images'=>$current_image,
+            //     'name'=>request('edit_name'),
+            //     'address'=>request('edit_address'),
+            //     'phone'=>request('edit_phone'),
+            //     'email'=>request('edit_email'),
+            //     'designation'=>request('edit_designation'),
+            // ]);
+            $users->images=$current_image;
+            $users->email=$request->edit_email;
+            $users->name=$request->edit_name;
+            $users->address=$request->edit_address;
+            $users->phone=$request->edit_phone;
+            $users->designation=$request->edit_designation;
+            $users->is_verified=$request->edit_status;
+            $users->save();
+            return response()->json(['success'=>true,'message'=>$data]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+    }
+
+    public function deleteEmployee($id){
+        try{
+            $users=User::find($id);
+            if($users!=""){
+                $users->delete();
+                return response()->json(['success'=>true,"message"=>$users]);
+            }else{
+                return response()->json(['success'=>false,'message'=>'User Already deleted']);
+            }
+        }catch(\Exception $e){
+                return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+    }
+    // =======Teams Member End ===================
 }
