@@ -18,7 +18,7 @@ class AdminController extends Controller
     // ================Dashboard Controller Start=======================
     public function dashboard()
     {
-        $totaluser = User::where("position", "employee")->count();
+        $totaluser = User::where("position", "users")->count();
         return view('pages.dashboard', compact('totaluser'));
     }
     // ================Dashboard Controller End=======================
@@ -250,6 +250,16 @@ class AdminController extends Controller
 
         }
 
+    }
+
+    public function deleteEvent($id){
+        try{
+            $id=event::find($id);
+            $id->delete();
+            return response()->json(['success'=>true]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
     }
     // ========Event Controller End===============
 }

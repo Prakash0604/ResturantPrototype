@@ -120,7 +120,7 @@
                                             </td>
                                             <td class="align-middle">
                                                 <a class="btn btn-primary editEvent" data-id="{{ $event->id }}" data-bs-toggle="modal" data-bs-target="#editEvent">Edit</a>
-                                                <a class="btn btn-danger deleteEvent" data-id="{{ $event->id }}">Delete</a>
+                                                <a class="btn btn-danger deleteEvent" data-id="{{ $event->id }}" data-bs-toggle="modal" data-bs-target="#deleteevent">Delete</a>
                                             </td>
                                         </tr>
                                     @empty
@@ -137,7 +137,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="editEvent" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+    <div class="modal fade" id="deleteEvent" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -198,8 +198,34 @@
             </form>
         </div>
     </div>
-</div>
-
+   </div>
+   <div class="modal fade" id="deleteevent" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+   aria-hidden="true">
+   <div class="modal-dialog" role="document">
+       <div class="modal-content">
+           <form id="EventDelete" enctype="multipart/form-data">
+               <div class="modal-header">
+                   <h5 class="modal-title" id="modalTitleId">
+                       Delete event
+                   </h5>
+                   <button type="button" class="btn-close" data-bs-dismiss="modal"
+                       aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                   <div class="container">
+                      <h5>Are your sure your want to delete ?</h5>
+                   </div>
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                       Close
+                   </button>
+                   <button type="submit" class="btn btn-danger" id="btndelete">Confirm Delete</button>
+               </div>
+           </form>
+       </div>
+   </div>
+  </div>
     <script>
         $(document).ready(function() {
             // Event Add Function start
@@ -311,6 +337,52 @@
                 })
             });
             // ===============Event Update Function End ==============
+
+
+
+            // ===============Event Delete Function Start ==============
+            $(document).on("click",".deleteEvent",function(){
+                var id=$(this).attr('data-id');
+                console.log(id);
+                $("#EventDelete").submit(function(e){
+                    e.preventDefault();
+                    // console.log("click on confirm delete");
+                    $("#btndelete").prop("disabled",true);
+                    $("#btndelete").text("Deleting...");
+                    $.ajax({
+                        method:"get",
+                        url:"{{ url('admin/event/delete') }}/"+id,
+                        success:function(data){
+                            // console.log(data);
+                            if(data.success==true){
+                                Swal.fire({
+                                    icon:"success",
+                                    title:"Event has been deleted.",
+                                    showConfirmButton:false,
+                                    timer:1500
+                                });
+                                setTimeout(()=>{
+                                    location.reload();
+                                },1500);
+                            }
+                            if(data.success==false){
+                                Swal.fire({
+                                    icon:"error",
+                                    title:data.message,
+                                    showConfirmButton:false,
+                                    timer:1500
+                                });
+                                $("#btndelete").prop("disabled",false);
+                                $("#btndelete").text("Confirm Delete");
+                            }
+                        }
+                    });
+                });
+            });
+
+
+
+            // ===============Event Delete Function End ==============
         });
     </script>
 @endsection

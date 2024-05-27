@@ -40,6 +40,7 @@ Route::middleware('is_admin')->group(function(){
     Route::post('/admin/event/add',[AdminController::class,'eventAdd']);
     Route::get('/admin/event/edit/{id}',[AdminController::class,'editEvent']);
     Route::post('/admin/event/edit/',[AdminController::class,'updateEvent']);
+    Route::get('/admin/event/delete/{id}',[AdminController::class,'deleteEvent']);
 });
 
 
