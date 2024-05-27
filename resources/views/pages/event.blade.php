@@ -10,6 +10,8 @@
                     Add Item
                 </button>
                 <!-- Modal -->
+                {{-- ======================Add Event  Modal Start======================================= --}}
+
                 <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -37,7 +39,7 @@
 
                                         <div class="mb-3">
                                             <label for="" class="form-label">Description</label>
-                                                <textarea name="event_description" id="event_description" cols="30" rows="10" class="form-control"></textarea>
+                                            <textarea name="event_description" id="event_description" cols="30" rows="10" class="form-control"></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="" class="form-label">Price</label>
@@ -56,6 +58,12 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- ======================Add Event  Modal End======================================= --}}
+
+
+                {{-- ======================List Event  Table======================================= --}}
+
                 <div class="card mb-4">
                     <div class="card-header pb-0">
                         <h6>Event Lists</h6>
@@ -109,18 +117,21 @@
                                                 </h6>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <h6>{{ \Illuminate\Support\Str::limit($event->event_desc, 60, $end='...') }}</h6>
+                                                <h6>{{ \Illuminate\Support\Str::limit($event->event_desc, 60, $end = '...') }}
+                                                </h6>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <h6>Rs.{{ $event->event_price }}</h6>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                 class="text-secondary text-dark badge badge-pill bg-gradient-{{ $event->status ? "success":"danger" }} font-weight-bold">{{ $event->status ? "Show":"Hide" }}</span>
+                                                    class="text-secondary text-dark badge badge-pill bg-gradient-{{ $event->status ? 'success' : 'danger' }} font-weight-bold">{{ $event->status ? 'Show' : 'Hide' }}</span>
                                             </td>
                                             <td class="align-middle">
-                                                <a class="btn btn-primary editEvent" data-id="{{ $event->id }}" data-bs-toggle="modal" data-bs-target="#editEvent">Edit</a>
-                                                <a class="btn btn-danger deleteEvent" data-id="{{ $event->id }}" data-bs-toggle="modal" data-bs-target="#deleteevent">Delete</a>
+                                                <a class="btn btn-primary editEvent" data-id="{{ $event->id }}"
+                                                    data-bs-toggle="modal" data-bs-target="#editEvent">Edit</a>
+                                                <a class="btn btn-danger deleteEvent" data-id="{{ $event->id }}"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteevent">Delete</a>
                                             </td>
                                         </tr>
                                     @empty
@@ -133,99 +144,107 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- ======================List Event  Table======================================= --}}
+
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="deleteEvent" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form id="updateEvent" enctype="multipart/form-data">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitleId">
-                        Edit event
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="mb-3">
-                            @csrf
-                            <label for="" class="form-label">Event Name</label>
-                            <input type="hidden" name="id" id="id">
-                            <input type="text" name="edit_event_name" id="edit_event_name" class="form-control"
-                                placeholder="Birthday party" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Images</label>
-                            <input type="file" name="edit_event_images" id="edit_event_images" class="form-control" />
-                            <div id="image">
 
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="" class="form-label">Description</label>
-                                <textarea name="edit_event_description" id="edit_event_description" class="form-control" cols="30" rows="10"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Price</label>
-                            <input type="number" name="edit_event_price" id="edit_event_price" class="form-control"
-                                placeholder="Enter the rate " />
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Status</label>
-                            <select
-                                class="form-select form-select-lg"
-                                name="edit_status"
-                                id="edit_status"
-                            >
-                                <option value="1">Show</option>
-                                <option value="0">Hide</option>
-                            </select>
-                        </div>
-
+    {{-- ======================Edit Event Modal Activate======================================= --}}
+    <div class="modal fade" id="editEvent" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="updateEvent" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitleId">
+                            Edit event
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Close
-                    </button>
-                    <button type="submit" class="btn btn-primary" id="btnupdate">Update</button>
-                </div>
-            </form>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="mb-3">
+                                @csrf
+                                <label for="" class="form-label">Event Name</label>
+                                <input type="hidden" name="id" id="id">
+                                <input type="text" name="edit_event_name" id="edit_event_name" class="form-control"
+                                    placeholder="Birthday party" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Images</label>
+                                <input type="file" name="edit_event_images" id="edit_event_images"
+                                    class="form-control" />
+                                <div id="image">
+
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Description</label>
+                                <textarea name="edit_event_description" id="edit_event_description" class="form-control" cols="30"
+                                    rows="10"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Price</label>
+                                <input type="number" name="edit_event_price" id="edit_event_price" class="form-control"
+                                    placeholder="Enter the rate " />
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Status</label>
+                                <select class="form-select form-select-lg" name="edit_status" id="edit_status">
+                                    <option value="1">Show</option>
+                                    <option value="0">Hide</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="btnupdate">Update</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-   </div>
-   <div class="modal fade" id="deleteevent" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-   aria-hidden="true">
-   <div class="modal-dialog" role="document">
-       <div class="modal-content">
-           <form id="EventDelete" enctype="multipart/form-data">
-               <div class="modal-header">
-                   <h5 class="modal-title" id="modalTitleId">
-                       Delete event
-                   </h5>
-                   <button type="button" class="btn-close" data-bs-dismiss="modal"
-                       aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                   <div class="container">
-                      <h5>Are your sure your want to delete ?</h5>
-                   </div>
-               </div>
-               <div class="modal-footer">
-                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                       Close
-                   </button>
-                   <button type="submit" class="btn btn-danger" id="btndelete">Confirm Delete</button>
-               </div>
-           </form>
-       </div>
-   </div>
-  </div>
+    {{-- ======================Edit Event Modal Activate======================================= --}}
+
+   {{-- ======================Delete Event  Modal Start======================================= --}}
+
+    <div class="modal fade" id="deleteevent" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="EventDelete" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitleId">
+                            Delete event
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <h5>Are your sure your want to delete ?</h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-danger" id="btndelete">Confirm Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+       {{-- ======================Delete Event  Modal Stop======================================= --}}
+
     <script>
         $(document).ready(function() {
             // Event Add Function start
@@ -276,20 +295,22 @@
 
             // ===============Event Edit Function Start ============
 
-            $(document).on("click",'.editEvent',function(){
-                var id=$(this).attr("data-id");
+            $(document).on("click", '.editEvent', function() {
+                var id = $(this).attr("data-id");
                 console.log(id);
                 $.ajax({
-                    method:"get",
-                    url:"{{ url('admin/event/edit') }}/"+id,
-                    success:function(data){
+                    method: "get",
+                    url: "{{ url('admin/event/edit') }}/" + id,
+                    success: function(data) {
                         console.log(data);
                         $("#id").val(data.message.id);
                         $("#edit_event_name").val(data.message.event_name);
                         $("#edit_event_description").val(data.message.event_desc);
                         $("#edit_event_price").val(data.message.event_price);
                         $("#edit_status").val(data.message.status);
-                        $("#image").html(` <img src="{{ asset('storage/event/') }}/`    +data.message.event_image+ `" class="rounded mt-2" alt=""  width="100" height="100" >`);
+                        $("#image").html(` <img src="{{ asset('storage/event/') }}/` + data
+                            .message.event_image +
+                            `" class="rounded mt-2" alt=""  width="100" height="100" >`);
                     }
                 });
             });
@@ -297,40 +318,40 @@
 
 
             // ===============Event Update Function start ==============
-            $("#updateEvent").submit(function(e){
+            $("#updateEvent").submit(function(e) {
                 e.preventDefault();
                 $("#btnupdate").text("Updating...");
-                $("#btnupdate").prop("disabled",true);
-                var formdata=new FormData(this);
+                $("#btnupdate").prop("disabled", true);
+                var formdata = new FormData(this);
                 $.ajax({
-                    method:"POST",
-                    url:"{{ url('admin/event/edit') }}",
-                    data:formdata,
-                    contentType:false,
-                    processData:false,
-                    success:function(data){
+                    method: "POST",
+                    url: "{{ url('admin/event/edit') }}",
+                    data: formdata,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
                         console.log(data);
-                        if(data.success==true){
+                        if (data.success == true) {
                             Swal.fire({
-                                icon:"success",
-                                title:"Event Updated",
-                                showConfirmButton:false,
-                                timer:1500,
+                                icon: "success",
+                                title: "Event Updated",
+                                showConfirmButton: false,
+                                timer: 1500,
                             });
                             setTimeout(() => {
                                 location.reload();
                             }, 1500);
 
                         }
-                        if(data.success==false){
+                        if (data.success == false) {
                             Swal.fire({
-                                icon:"error",
-                                title:data.message,
-                                showConfirmButton:false,
-                                timer:1500,
+                                icon: "error",
+                                title: data.message,
+                                showConfirmButton: false,
+                                timer: 1500,
 
                             });
-                            $("#btnupdate").prop("disabled",false);
+                            $("#btnupdate").prop("disabled", false);
                             $("#btnupdate").text("Update");
                         }
                     }
@@ -341,38 +362,38 @@
 
 
             // ===============Event Delete Function Start ==============
-            $(document).on("click",".deleteEvent",function(){
-                var id=$(this).attr('data-id');
+            $(document).on("click", ".deleteEvent", function() {
+                var id = $(this).attr('data-id');
                 console.log(id);
-                $("#EventDelete").submit(function(e){
+                $("#EventDelete").submit(function(e) {
                     e.preventDefault();
                     // console.log("click on confirm delete");
-                    $("#btndelete").prop("disabled",true);
+                    $("#btndelete").prop("disabled", true);
                     $("#btndelete").text("Deleting...");
                     $.ajax({
-                        method:"get",
-                        url:"{{ url('admin/event/delete') }}/"+id,
-                        success:function(data){
+                        method: "get",
+                        url: "{{ url('admin/event/delete') }}/" + id,
+                        success: function(data) {
                             // console.log(data);
-                            if(data.success==true){
+                            if (data.success == true) {
                                 Swal.fire({
-                                    icon:"success",
-                                    title:"Event has been deleted.",
-                                    showConfirmButton:false,
-                                    timer:1500
+                                    icon: "success",
+                                    title: "Event has been deleted.",
+                                    showConfirmButton: false,
+                                    timer: 1500
                                 });
-                                setTimeout(()=>{
+                                setTimeout(() => {
                                     location.reload();
-                                },1500);
+                                }, 1500);
                             }
-                            if(data.success==false){
+                            if (data.success == false) {
                                 Swal.fire({
-                                    icon:"error",
-                                    title:data.message,
-                                    showConfirmButton:false,
-                                    timer:1500
+                                    icon: "error",
+                                    title: data.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
                                 });
-                                $("#btndelete").prop("disabled",false);
+                                $("#btndelete").prop("disabled", false);
                                 $("#btndelete").text("Confirm Delete");
                             }
                         }

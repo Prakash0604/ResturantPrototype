@@ -60,7 +60,7 @@
               <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
                 <a href="javascript:;">
                 @if ($user->images!="")
-                <img src="{{ asset('storage/images/'.$user->images) }}" class="rounded-circle img-fluid border border-2 border-white">
+                <img src="{{ asset('storage/teams/'.$user->images) }}" class="rounded-circle img-fluid border border-2 border-white">
                 @else
                 <img src="{{ asset('default/user.png') }}" class="rounded-circle img-fluid border border-2 border-white">
                 @endif
