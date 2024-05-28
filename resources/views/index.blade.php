@@ -207,4 +207,15 @@
 
 </body>
 
+<script>
+    $(document).ready(function(){
+        // $(this).hover(".nav-item",function(){
+        //     css("background","black");
+        // })
+        $(".nav-item").click(function(){
+            $(this).css("background","black");
+        })
+        $(this)
+    })
+</script>
 </html>

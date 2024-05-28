@@ -42,9 +42,9 @@
                                                         @if ($emp->images != '')
                                                             <img src="{{ asset('storage/teams/' . $emp->images) }}"
                                                                 class="avatar avatar-sm me-3" alt="user1">
-                                                        @elseif($emp->images!="")
-                                                        <img src="{{ asset('storage/images/' . $emp->images) }}"
-                                                        class="avatar avatar-sm me-3" alt="user1">
+                                                        @elseif($emp->images != '')
+                                                            <img src="{{ asset('storage/images/' . $emp->images) }}"
+                                                                class="avatar avatar-sm me-3" alt="user1">
                                                         @else
                                                             <img src="{{ asset('default/user.png') }}"
                                                                 class="avatar avatar-sm me-3" alt="user1">
@@ -81,8 +81,10 @@
                             <span class="text-secondary text-xs font-weight-bold">{{ $emp->designation }}</span>
                         </td>
                         <td class="align-middle">
-                            <a  class="btn btn-primary editEmployee" data-id="{{ $emp->id }}" data-bs-toggle="modal" data-bs-target="#editModal" >Edit</a>
-                            <a  class="btn btn-danger deleteEmployee" data-id="{{ $emp->id }}" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
+                            <a class="btn btn-primary editEmployee" data-id="{{ $emp->id }}" data-bs-toggle="modal"
+                                data-bs-target="#editModal">Edit</a>
+                            <a class="btn btn-danger deleteEmployee" data-id="{{ $emp->id }}" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">Delete</a>
                         </td>
                         </tr>
                     @empty
@@ -130,8 +132,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Contact</label>
-                                <input type="number" name="phone" placeholder="Enter your contact number" id=""
-                                    class="form-control mb-2" />
+                                <input type="number" name="phone" placeholder="Enter your contact number"
+                                    id="" class="form-control mb-2" />
                                 <input type="email" name="email" placeholder="Enter your email" id=""
                                     class="form-control" />
                             </div>
@@ -160,7 +162,8 @@
     {{-- ==================================Employee Edit Modal Start==================================== --}}
 
 
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form id="editEmployee">
@@ -185,29 +188,27 @@
                                 <input type="hidden" name="id" id="id">
                                 <input type="text" name="edit_name" placeholder="Employee name" id="edit_name"
                                     class="form-control mb-2" />
-                                <input type="text" name="edit_address" placeholder="Enter your address" id="edit_address"
-                                    class="form-control mb-2" />
+                                <input type="text" name="edit_address" placeholder="Enter your address"
+                                    id="edit_address" class="form-control mb-2" />
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Contact</label>
-                                <input type="number" name="edit_phone" placeholder="Enter your contact number" id="edit_phone" class="form-control mb-2" />
-                                <input type="email" name="edit_email" readonly placeholder="Enter your email" id="edit_email" class="form-control" />
+                                <input type="number" name="edit_phone" placeholder="Enter your contact number"
+                                    id="edit_phone" class="form-control mb-2" />
+                                <input type="email" name="edit_email" readonly placeholder="Enter your email"
+                                    id="edit_email" class="form-control" />
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Designation</label>
                                 <input type="text" name="edit_designation" id="edit_designation"
                                     placeholder="chef,patissier,cook,etc..." class="form-control" />
-                                    <div class="mb-3">
-                                        <label for="" class="form-label">Status</label>
-                                        <select
-                                            class="form-select form-select-lg"
-                                            name="edit_status"
-                                            id=""
-                                        >
-                                            <option value="1">Active</option>
-                                            <option value="0">Inactive</option>
-                                        </select>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Status</label>
+                                    <select class="form-select form-select-lg" name="edit_status" id="">
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+                                </div>
 
                             </div>
                         </div>
@@ -230,7 +231,8 @@
 
     {{-- ==================================Employee Delete Modal Start==================================== --}}
 
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form id="deleteEmployee">
@@ -243,15 +245,15 @@
                     <div class="modal-body">
                         <div class="container-fluid">
                             @csrf
-                           <h5>Are you sure your want to delete ?</h5>
+                            <h5>Are you sure your want to delete ?</h5>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             <i class="bi bi-x-lg"></i>
                         </button>
-                        <button type="submit" class="btn btn-danger" id="btnDelete"> <i
-                                class="bi bi-floppy2-fill"></i> Confirm Delete</button>
+                        <button type="submit" class="btn btn-danger" id="btnDelete"> <i class="bi bi-floppy2-fill"></i>
+                            Confirm Delete</button>
                     </div>
                 </form>
             </div>
@@ -305,13 +307,13 @@
             });
 
             // ==========================Show Data in Edit Modal Start======================================
-            $(document).on("click",'.editEmployee',function(){
-                var id=$(this).attr('data-id');
+            $(document).on("click", '.editEmployee', function() {
+                var id = $(this).attr('data-id');
                 console.log(id);
                 $.ajax({
-                    method:"get",
-                    url:"{{ url('admin/employee/edit') }}/"+id,
-                    success:function(data){
+                    method: "get",
+                    url: "{{ url('admin/employee/edit') }}/" + id,
+                    success: function(data) {
                         console.log(data);
                         $("#id").val(data.data.id);
                         $("#edit_name").val(data.data.name);
@@ -319,7 +321,8 @@
                         $("#edit_address").val(data.data.address);
                         $("#edit_phone").val(data.data.phone);
                         $("#edit_designation").val(data.data.designation);
-                        $("#img").html(`<img src="{{ asset('storage/teams') }}/`+data.data.images+ `"alt='teams' width="100" height="100">`);
+                        $("#img").html(`<img src="{{ asset('storage/teams') }}/` + data.data
+                            .images + `"alt='teams' width="100" height="100">`);
                     }
                 });
             });
@@ -328,39 +331,39 @@
 
             // ==========================Update Data in Edit Modal Start======================================
 
-            $("#editEmployee").submit(function(e){
+            $("#editEmployee").submit(function(e) {
                 e.preventDefault();
-                var formdata=new FormData(this);
+                var formdata = new FormData(this);
                 // console.log(formdata);
-                $("#btnUpdate").prop("disabled",true);
+                $("#btnUpdate").prop("disabled", true);
                 $("#btnUpdate").text("Updating...");
                 $.ajax({
-                    method:"POST",
-                    url:"{{ url('admin/employee/edit') }}",
-                    data:formdata,
-                    processData:false,
-                    contentType:false,
-                    success:function(data){
+                    method: "POST",
+                    url: "{{ url('admin/employee/edit') }}",
+                    data: formdata,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
                         console.log(data);
-                        if(data.success==true){
+                        if (data.success == true) {
                             Swal.fire({
-                                icon:"success",
-                                title:"Employee has been updated",
-                                showConfirmButton:false,
-                                timer:1500,
+                                icon: "success",
+                                title: "Employee has been updated",
+                                showConfirmButton: false,
+                                timer: 1500,
                             });
                             setTimeout(() => {
                                 location.reload();
                             }, 1500);
                         }
-                        if(data.success==false){
+                        if (data.success == false) {
                             Swal.fire({
-                                icon:"error",
-                                title:data.message,
-                                showConfirmButton:false,
-                                timer:1500,
+                                icon: "error",
+                                title: data.message,
+                                showConfirmButton: false,
+                                timer: 1500,
                             });
-                            $("#btnUpdate").prop("disabled",false);
+                            $("#btnUpdate").prop("disabled", false);
                             $("#btnUpdate").text("Update");
                         }
                     }
@@ -368,36 +371,36 @@
             });
             // ==========================Update Data in Edit Modal End======================================
             // ==========================Delete Data in Delete Modal Start======================================
-            $(document).on("click",".deleteEmployee",function(){
-                var id=$(this).attr("data-id");
-                $("#deleteEmployee").submit(function(e){
+            $(document).on("click", ".deleteEmployee", function() {
+                var id = $(this).attr("data-id");
+                $("#deleteEmployee").submit(function(e) {
                     e.preventDefault();
-                    $("#btnDelete").prop("disabled",true);
+                    $("#btnDelete").prop("disabled", true);
                     $("#btnDelete").text("Deleting...");
                     $.ajax({
-                        method:"get",
-                        url:"{{ url('admin/employee/delete') }}/"+id,
-                        success:function(data){
+                        method: "get",
+                        url: "{{ url('admin/employee/delete') }}/" + id,
+                        success: function(data) {
                             // console.log(data);
-                            if(data.success==true){
+                            if (data.success == true) {
                                 Swal.fire({
-                                    icon:"success",
-                                    title:"Deleted successfully",
-                                    showConfirmButton:false,
-                                    timer:1500,
+                                    icon: "success",
+                                    title: "Deleted successfully",
+                                    showConfirmButton: false,
+                                    timer: 1500,
                                 });
                                 setTimeout(() => {
                                     location.reload();
                                 }, 1500);
                             }
-                            if(data.success==false){
+                            if (data.success == false) {
                                 Swal.fire({
-                                    icon:"warning",
-                                    title:data.message,
-                                    showConfirmButton:false,
-                                    timer:1500
+                                    icon: "warning",
+                                    title: data.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
                                 });
-                                $("#btnDelete").prop("disabled",false);
+                                $("#btnDelete").prop("disabled", false);
                                 $("#btnDelete").text("Confirm Delete");
                             }
                         }

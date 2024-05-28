@@ -82,7 +82,8 @@ class AuthController extends Controller
                     session()->put($request->email);
                     return redirect('/admin/dashboard');
                 }else{
-                    return response(['message'=>'User Login']);
+                    // return response(['message'=>'User Login']);
+                    return redirect('/users/booktable');
                 }
             }else{
                 return back()->with(['message'=>"Pelase verify your email"]);
@@ -92,10 +93,10 @@ class AuthController extends Controller
         else{
             // echo $users;
             // die();
-            if($users){
-                return back()->with(['message'=>'Email not register yet']);
-            }else{
+            if($users->count()>0){
                 return back()->with(['message'=>'Invalid Login Crediantials']);
+            }else{
+                return back()->with(['message'=>'Email not register yet']);
             }
         }
         return response()->json(['success'=>false]);
