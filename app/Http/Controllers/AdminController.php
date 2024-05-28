@@ -113,6 +113,40 @@ class AdminController extends Controller
             return response()->json(['success'=>false,'message'=>$e->getMessage()]);
         }
     }
+
+    public function editMenu($id){
+        try{
+            $menu=menu_item::find($id);
+            return response()->json(['success'=>true,'message'=>$menu]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+    }
+
+    public function updateMenu(Request $request){
+        try{
+            $id=$request->id;
+            $menu=menu_item::find($id);
+            $current_image=$menu->images;
+            if($request->hasFile('edit_images')){
+                if($current_image && file_exists(public_path($current_image))){
+                    unlink(public_path($current_image));
+                }
+                $newimage=$request->file('edit_images');
+                $current_image=time().'.'.$newimage->getClientOriginalExtension();
+                $newimage->storeAs('public/food/'.$current_image);
+            }
+            $menu->name=$request->edit_name;
+            $menu->images=$current_image;
+            $menu->description=$request->edit_description;
+            $menu->price=$request->edit_price;
+            $menu->category_id=$request->edit_category;
+            $menu->save();
+            return response()->json(['success'=>true]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+    }
     // ================Menu Controller End=======================
 
     // ================Category Controller Start=======================
@@ -139,14 +173,12 @@ class AdminController extends Controller
         return view('pages.categorylist', compact('categories'));
     }
 
-    public function editcat($id)
-    {
+    public function editcat($id) {
         $cat = category::find($id);
         return response()->json(['cat' => $cat]);
     }
 
-    public function updateCat(Request $request)
-    {
+    public function updateCat(Request $request) {
         try {
             $id = $request->id;
             $catcategory = category::find($id)->update([
@@ -158,8 +190,7 @@ class AdminController extends Controller
         }
     }
 
-    public function deleteCat($id)
-    {
+    public function deleteCat($id){
         try {
             $category = category::find($id);
             $category->delete();
