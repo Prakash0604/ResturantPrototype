@@ -4,7 +4,8 @@
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
-                <button type="button" class="btn btn-secondary btn-lg bg-gray-100 text-dark">
+                <button type="button" class="btn btn-secondary btn-lg bg-gray-100 text-dark" data-bs-toggle="modal"
+                data-bs-target="#modalId">
                     <i class="bi bi-plus-lg"></i>
                     Add Item
                 </button>
@@ -124,7 +125,9 @@
                                     @forelse ($menuitems as $menu)
                                         <tr>
 
-
+                                            {{-- @php
+                                                dd($menu);
+                                            @endphp --}}
                                             <td class="align-middle text-center text-sm">
                                                 <div>
                                                     @if ($menu->images != '')
@@ -149,7 +152,13 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-dark badge badge-pill bg-gradient-success font-weight-bold">{{ $menu->category->name }}</span>
+                                                    class="text-secondary text-dark badge badge-pill bg-gradient-success font-weight-bold">
+                                                    @if ($menu->category)
+                                                        {{ $menu->category->name }}
+                                                        @else
+                                                        Category Not assigned
+                                                    @endif
+                                                </span>
                                             </td>
                                             <td class="align-middle">
                                                 <a href="" class="btn btn-primary editMenu"
@@ -260,16 +269,19 @@
                             Swal.fire({
                                 icon: "success",
                                 title: "Saved Successfully",
-                                confirmButtonShow: false,
-                                timer: 1500
+                                showconfirmButton: false,
+                                timer: 1500,
                             });
+                            setTimeout(() => {
+                                location.realod();
+                            }, 1500);
                         }
                         if (data.success == false) {
                             Swal.fire({
                                 icon: "error",
                                 title: data.message,
                                 showConfirmButton: false,
-                                timer: 1500,
+
                             });
                             $("#btnsave").prop("disabled", false);
                             $("#btnsave").text("Save");

@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class menu_item extends Model
 {
     use HasFactory;
+
     public function category(){
-        return $this->belongsTo(category::class,'category_id','id');
+        return $this->belongsTo(category::class);
     }
 }

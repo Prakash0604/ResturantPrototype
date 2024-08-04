@@ -31,7 +31,7 @@
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
       <div class="logo me-auto">
-        <h1><a href="index.html">Kitchen Chef</a></h1>
+        <h1><a href="{{ url('/') }}">Kitchen Chef</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
@@ -39,7 +39,7 @@
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a class="nav-link scrollto " href="{{ url('users/menu') }}">Menu</a></li>
-          <li><a class="nav-link scrollto" href="#about">Make Reservation</a></li>
+          <li><a class="nav-link scrollto" href="{{ route('reservation') }}">Make Reservation</a></li>
           <li><a class="nav-link scrollto" href="#menu">Order Food</a></li>
           <li><a class="nav-link scrollto" href="#events">Order History</a></li>
           <li><a class="nav-link scrollto" href="{{ url('users/profile') }}">Profile</a></li>

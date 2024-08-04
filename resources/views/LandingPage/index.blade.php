@@ -73,7 +73,11 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
+      @if (Auth::user()->email)
+      <a href="{{ route('reservation') }}" class="book-a-table-btn scrollto">Book a table</a>
+          @else
       <a href="{{ url('sign-up') }}" class="book-a-table-btn scrollto">Book a table</a>
+      @endif
 
     </div>
   </header><!-- End Header -->

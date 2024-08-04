@@ -63,7 +63,7 @@ Route::middleware('is_admin')->group(function(){
 
 
     // ===========================User Route Start=====================================
-    Route::get('/users/booktable',[UserController::class,'booktable']);
+    Route::get('/users/booktable',[UserController::class,'booktable'])->name('reservation');
     Route::get('/users/profile',[UserController::class,'userProfile']);
     Route::post('/users/profile',[UserController::class,'updateProfile']);
     Route::get('/users/menu',[UserController::class,'menuitem']);

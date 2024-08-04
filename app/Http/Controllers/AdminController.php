@@ -28,7 +28,7 @@ class AdminController extends Controller
     // ================Users Controller Start=======================
     public function userstable()
     {
-        $users = User::where('position', 'users')->get();
+        $users = User::where('is_admin', 0)->get();
         return view('pages.tables', compact('users'));
         // dd($users);
     }
@@ -77,13 +77,13 @@ class AdminController extends Controller
         {
         $search=$request->search;
         $category=category::all();
-        if($search!=""){
-            $menuitems=menu_item::where('category_id',$search)->get();
+        // if($search!=""){
+        //     $menuitems=menu_item::where('category',$search)->get();
 
-        }else{
+        // }else{
 
             $menuitems=menu_item::with('category')->get();
-        }
+        // }
         return view('pages.menu-item',compact('category','menuitems'));
     }
 
@@ -304,7 +304,7 @@ class AdminController extends Controller
                 'phone'=>'required|min:10|numeric',
                 'address'=>'required',
                 'designation'=>'required|string|min:3',
-                'password'=>'required|max:6'
+                'password'=>'required|min:6'
             ]);
             $employee=new User();
             $employee->name=$request->name;

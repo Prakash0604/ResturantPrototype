@@ -26,6 +26,7 @@ class AuthController extends Controller
         $users->name=$request->name;
         $users->email=$request->email;
         $users->password=$request->password;
+        $users->is_verified=1;
         $file=$request->images;
         if($file){
             $filename=time()."-".$file->getclientOriginalName();
@@ -34,16 +35,16 @@ class AuthController extends Controller
         }
         $users->remember_token=$token;
         $users->save();
-        $domain=URL::to('/');
-        $url=$domain."/email/verification/".$token;
-        $data['url']=$url;
-        $data['username']=$request->name;
-        $data['email']=$request->email;
-        $data['title']="Email Verification";
-        Mail::send('Mail.MailVerification',['data'=>$data],function($message) use($data){
-            $message->to($data['email'])->subject($data['title']);
-        });
-        return redirect()->back()->with('success','Registered successfully!!,Please verify your email to login.');
+        // $domain=URL::to('/');
+        // $url=$domain."/email/verification/".$token;
+        // $data['url']=$url;
+        // $data['username']=$request->name;
+        // $data['email']=$request->email;
+        // $data['title']="Email Verification";
+        // Mail::send('Mail.MailVerification',['data'=>$data],function($message) use($data){
+        //     $message->to($data['email'])->subject($data['title']);
+        // });
+        return redirect('/')->with('success','Registered successfully!!');
     }
 
     public function verification($token){
@@ -82,6 +83,7 @@ class AuthController extends Controller
                     session()->put($request->email);
                     return redirect('/admin/dashboard');
                 }else{
+                    session()->put($request->email);
                     // return response(['message'=>'User Login']);
                     return redirect('/users/booktable');
                 }
