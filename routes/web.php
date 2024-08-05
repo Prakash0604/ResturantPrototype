@@ -61,6 +61,10 @@ Route::middleware('is_admin')->group(function(){
     Route::post('/admin/employee/edit/',[AdminController::class,'updateEmployee']);
     Route::get('/admin/employee/delete/{id}',[AdminController::class,'deleteEmployee']);
 
+    Route::get('/admin/table',[AdminController::class,'Tabledata']);
+    Route::post('/admin/table/add',[AdminController::class,'addTabledata']);
+    Route::get('/admin/table/delete/{id}',[AdminController::class,'deleteTabledata']);
+
 
     // ===========================User Route Start=====================================
     Route::get('/users/booktable',[UserController::class,'booktable'])->name('reservation');

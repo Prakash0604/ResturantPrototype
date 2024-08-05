@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\tabledata;
 use App\Models\User;
 use App\Models\event;
 use App\Models\category;
@@ -387,4 +388,39 @@ class AdminController extends Controller
         }
     }
     // =======Teams Member End ===================
+
+    public function Tabledata(){
+        $tabledatas=tabledata::all();
+        return view('pages.booktable',compact('tabledatas'));
+    }
+    public function addTabledata(Request $request){
+        try{
+            $request->validate([
+                'table_number'=>'required',
+                'seat_capicity'=>'required',
+            ]);
+            tabledata::create([
+                'table_number'=>$request->table_number,
+                'seat_capicity'=>$request->seat_capicity,
+                'status'=>$request->status
+            ]);
+            return response()->json(['success'=>true]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+    }
+
+    public function deleteTabledata($id){
+        try{
+            $tabledata=tabledata::find($id);
+            if($tabledata!=""){
+                $tabledata->delete();
+                return response()->json(["success"=>true,'message'=>'Table deleted successfully']);
+            }else{
+                return response()->json(['success'=>false,'message'=>'Table has been already deleted']);
+            }
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+    }
 }
