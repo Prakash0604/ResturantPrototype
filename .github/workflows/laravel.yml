@@ -1,9 +1,9 @@
-name: Deploy Laravel to Hostinger
+name: Deploy Laravel Application to Hostinger via FTP
 
 on:
   push:
     branches:
-      - main  # Trigger deployment when you push to the 'main' branch
+      - main  # or whatever branch you want to trigger deployment
 
 jobs:
   deploy:
@@ -15,27 +15,18 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        composer install --optimize-autoloader --no-dev
+        composer install --no-dev --optimize-autoloader
         npm install
-        npm run build
+        npm run prod
 
     - name: Deploy to Hostinger via FTP
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-        server: amitysoftcs.com
+        server: amitysoftcs.com  # or 154.49.247.205
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./ # Upload the entire repository
-        server-dir: /public_html/ # Adjust to your folder structure
-        log-level: verbose
-        exclude: |
-          .git*
-          node_modules/
-          vendor/
-
-    - name: Finalize Deployment
-      run: |
-        php artisan migrate --force
-        php artisan config:cache
-        php artisan route:cache
-        php artisan view:cache
+        port: 21  # Default FTP port
+        local-dir: ./  # Directory with your Laravel project
+        server-dir: /public_html  # The directory where you want to deploy your files
+        log-level: verbose  # Detailed logging for debugging
+        timeout: 600  # Increase timeout to prevent connection timeout issues
