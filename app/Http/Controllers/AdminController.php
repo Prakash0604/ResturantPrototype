@@ -423,4 +423,10 @@ class AdminController extends Controller
             return response()->json(['success'=>false,'message'=>$e->getMessage()]);
         }
     }
+
+    public function reservedTable(){
+
+    }
+
+
 }

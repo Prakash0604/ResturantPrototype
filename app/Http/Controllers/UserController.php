@@ -45,4 +45,18 @@ class UserController extends Controller
         $menu=menu_item::all();
         return view('UsersPage.menu',['menu'=>$menu]);
     }
+
+    public function storeItems(Request $request){
+        $items=$request->input('items',[]);
+        session(['selected_items'=>$items]);
+        return response()->json(['success'=>true]);
+    }
+
+    public function showItems($id){
+        $data=menu_item::find($id);
+        return view('UsersPage.OrderItemsList',compact('data'));
+    }
+    public function reservedTable(){
+
+    }
 }

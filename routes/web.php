@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\EsewaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,13 +65,24 @@ Route::middleware('is_admin')->group(function(){
     Route::post('/admin/table/add',[AdminController::class,'addTabledata']);
     Route::get('/admin/table/delete/{id}',[AdminController::class,'deleteTabledata']);
 
+    // Reservation table Start
+    Route::get('/admin/table/reserved',[AdminController::class,'reservedTable']);
+
 
     // ===========================User Route Start=====================================
     Route::get('/users/booktable',[UserController::class,'booktable'])->name('reservation');
     Route::get('/users/profile',[UserController::class,'userProfile']);
     Route::post('/users/profile',[UserController::class,'updateProfile']);
     Route::get('/users/menu',[UserController::class,'menuitem']);
+
+    // Route::post('/users/store/item',[UserController::class,'storeItems'])->name('store.items');
+    Route::get('/users/show/item/{id}',[UserController::class,'showItems'])->name('show.items');
     // ===========================User Route End=======================================
+
+    Route::get('/payment', [EsewaController::class, 'index'])->name('payment.index');
+Route::post('/payment/process', [EsewaController::class, 'processPayment'])->name('payment.process');
+Route::get('/payment/success', [EsewaController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment/failure', [EsewaController::class, 'paymentFailure'])->name('payment.failure');
 });
 
 
