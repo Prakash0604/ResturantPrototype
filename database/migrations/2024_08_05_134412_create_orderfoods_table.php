@@ -13,14 +13,12 @@ return new class extends Migration
     {
         Schema::create('orderfoods', function (Blueprint $table) {
             $table->id();
+            $table->string('transaction_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('menu_item_id');
             $table->foreign('menu_item_id')->references('id')->on('menu_items')->onUpdate('cascade');
-            $table->unsignedBigInteger('table_id');
-            $table->foreign('table_id')->references('id')->on('tabledatas');
-            $table->string('order_date');
-            $table->string('quantity');
+            $table->string('quantity')->default(1);
             $table->string('price');
             $table->string('total_amount');
             $table->boolean('status')->default(0);

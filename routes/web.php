@@ -80,9 +80,9 @@ Route::middleware('is_admin')->group(function(){
     // ===========================User Route End=======================================
 
     Route::get('/payment', [EsewaController::class, 'index'])->name('payment.index');
-Route::post('/payment/process', [EsewaController::class, 'processPayment'])->name('payment.process');
-Route::get('/payment/success', [EsewaController::class, 'paymentSuccess'])->name('payment.success');
-Route::get('/payment/failure', [EsewaController::class, 'paymentFailure'])->name('payment.failure');
+    Route::post('/payment/process', [EsewaController::class, 'processPayment'])->name('payment.process');
+    Route::get('/payment/success', [EsewaController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment/failure', [EsewaController::class, 'paymentFailure'])->name('payment.failure');
 });
 
 

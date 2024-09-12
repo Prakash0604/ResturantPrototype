@@ -16,18 +16,19 @@ class EsewaController extends Controller
     {
         // Test credentials and URLs
         $amt=$request->input('amt');
+        $tax=20;
+        $total=$amt+$tax;
         $esewa_url = 'https://uat.esewa.com.np/epay/main';
         $success_url = route('payment.success');
         $failure_url = route('payment.failure');
+
         // Payment request payload
-        $scharge=20;
-        $totalamt=$amt+$scharge;
         $data = [
             'amt' => $amt, // Payment amount
             'pdc' => 0, // Tax amount
-            'psc' =>0, // Service charge
-            'txAmt' => $scharge, // Delivery charge or additional charge
-            'tAmt' => $totalamt, // Total amount
+            'psc' => 0, // Service charge
+            'txAmt' => $tax, // Delivery charge or additional charge
+            'tAmt' => $total, // Total amount
             'pid' => '1234567890abcdef', // Unique ID for transaction
             'scd' => 'epay_payment', // Merchant code (test mode)
             'su'  => $success_url, // Success URL
