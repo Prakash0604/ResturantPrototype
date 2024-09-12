@@ -12,4 +12,8 @@ class menu_item extends Model
     public function category(){
         return $this->belongsTo(category::class);
     }
+
+    public function orderFood(){
+        return $this->hasMany(orderfood::class);
+    }
 }

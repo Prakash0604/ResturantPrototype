@@ -53,7 +53,7 @@ class UserController extends Controller
     }
 
     public function showItems($id){
-        $data=menu_item::find($id);
+        $data=menu_item::with('category')->find($id);
         return view('UsersPage.OrderItemsList',compact('data'));
     }
     public function reservedTable(){

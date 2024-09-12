@@ -195,8 +195,8 @@
             </div>
           </div>
           @endforeach
+          <a href="{{ url('users/menu') }}" class="btn btn-warning">View All</a>
         </div>
-
       </div>
     </section><!-- End Menu Section -->
 

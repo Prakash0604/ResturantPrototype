@@ -83,6 +83,9 @@ Route::middleware('is_admin')->group(function(){
     Route::post('/payment/process', [EsewaController::class, 'processPayment'])->name('payment.process');
     Route::get('/payment/success', [EsewaController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/payment/failure', [EsewaController::class, 'paymentFailure'])->name('payment.failure');
+
+    Route::get('/admin/order/item',[AdminController::class,'orderTable'])->name('order_table');
+    Route::post('admin/order/item/status/{id}',[AdminController::class,'orderStatus'])->name('order_status');
 });
 
 

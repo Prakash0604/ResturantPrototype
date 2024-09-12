@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\event;
 use App\Models\category;
 use App\Models\menu_item;
+use App\Models\orderfood;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\fileExists;
 
@@ -18,7 +19,7 @@ class AdminController extends Controller
     // ================Dashboard Controller Start=======================
     public function dashboard()
     {
-        $totaluser = User::where("position", "users")->count();
+        $totaluser = User::where("position", "users")->where('is_admin',0)->count();
         $totalemployee=User::where("position","employee")->count();
         return view('pages.dashboard', compact('totaluser','totalemployee'));
     }
@@ -29,7 +30,7 @@ class AdminController extends Controller
     // ================Users Controller Start=======================
     public function userstable()
     {
-        $users = User::where('is_admin', 0)->get();
+        $users = User::where('is_admin', 0)->where('position','users')->get();
         return view('pages.tables', compact('users'));
         // dd($users);
     }
@@ -425,6 +426,24 @@ class AdminController extends Controller
     }
 
     public function reservedTable(){
+
+    }
+
+    public function OrderTable(){
+        $users=orderfood::with(['menu','user'])->get();
+        return view('pages.orderTable',compact('users'));
+    }
+
+    public function orderStatus(Request $request,$id){
+        try{
+            $order=orderfood::find($id);
+            $status=$request->status;
+            $order->status=$status;
+            $order->save();
+            return response()->json(['success'=>true]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,$e->getMessage()]);
+        }
 
     }
 
