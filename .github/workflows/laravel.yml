@@ -20,7 +20,7 @@ jobs:
     - name: Deploy to Hostinger via FTP
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-        server: amitysoftcs.com  # or 154.49.247.205
+        server: 154.49.247.205  # or 154.49.247.205
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         port: 21  # Default FTP port
