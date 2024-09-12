@@ -16,8 +16,6 @@ jobs:
     - name: Install Dependencies
       run: |
         composer install --no-dev --optimize-autoloader
-        npm install
-        npm run dev
 
     - name: Deploy to Hostinger via FTP
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
