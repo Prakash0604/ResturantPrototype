@@ -27,6 +27,7 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./ # Upload the entire repository
         server-dir: /public_html/ # Adjust to your folder structure
+        passive: true
         exclude: |
           .git*
           node_modules/
