@@ -20,17 +20,17 @@ jobs:
     - name: Deploy Laravel files (excluding public) to root directory
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-        server: ${{ secrets.FTP_SERVER }}  # This must match your GitHub Secrets
-        username: ${{ secrets.FTP_USERNAME }}  # FTP Username stored in secrets
-        password: ${{ secrets.FTP_PASSWORD }}  # FTP Password stored in secrets
-        port: 21  # Default FTP port (adjust if needed)
+        server: ${{ secrets.FTP_SERVER }}  # The FTP server address, make sure it's added in your GitHub Secrets
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        port: 21  # Default FTP port
         local-dir: ./  # Root directory of your Laravel project
         server-dir: ../  # Move one level up from public_html (root of your subdomain)
-        exclude: |  # Exclude unnecessary files and folders
+        exclude: |  # Files/folders to exclude from the deployment
           .git*
           node_modules/
           vendor/
           public/  # Exclude public folder contents
           storage/logs/
-        log-level: verbose
-        timeout: 600
+        log-level: verbose  # Detailed logging for debugging
+        timeout: 600  # Increased timeout to prevent connection issues
