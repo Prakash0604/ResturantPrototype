@@ -20,22 +20,17 @@ jobs:
     - name: Deploy Laravel files (excluding public) to root directory
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        port: 21  # Default FTP port
+        server: ${{ secrets.FTP_SERVER }}  # This must match your GitHub Secrets
+        username: ${{ secrets.FTP_USERNAME }}  # FTP Username stored in secrets
+        password: ${{ secrets.FTP_PASSWORD }}  # FTP Password stored in secrets
+        port: 21  # Default FTP port (adjust if needed)
         local-dir: ./  # Root directory of your Laravel project
         server-dir: ../  # Move one level up from public_html (root of your subdomain)
         exclude: |  # Exclude unnecessary files and folders
           .git*
           node_modules/
           vendor/
-          public/  # Exclude public folder contents, you will upload this manually
+          public/  # Exclude public folder contents
           storage/logs/
         log-level: verbose
         timeout: 600
-
-    # - name: Composer Install on Server (optional)
-    #   run: |
-    #     ssh user@host 'cd /path/to/root && composer install --no-dev --optimize-autoloader'
-      # Use this step if you have SSH access to the server and want to run composer on the server directly.
