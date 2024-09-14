@@ -25,6 +25,6 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: 21  # Default FTP port
         local-dir: ./  # Directory with your Laravel project
-        server-dir: /public_html/  # The directory where you want to deploy your files
+        server-dir: /  # The directory where you want to deploy your files
         log-level: verbose  # Detailed logging for debugging
         timeout: 600  # Increase timeout to prevent connection timeout issues
