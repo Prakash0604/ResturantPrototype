@@ -17,20 +17,34 @@ jobs:
       run: |
         composer install --no-dev --optimize-autoloader
 
-    - name: Deploy Laravel files (excluding public) to root directory
+    - name: Deploy Laravel files (excluding public) to root directory (outside public_html)
       uses: SamKirkland/FTP-Deploy-Action@4.3.2
       with:
-        server: ${{ secrets.FTP_SERVER }}  # The FTP server address, make sure it's added in your GitHub Secrets
+        server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         port: 21  # Default FTP port
         local-dir: ./  # Root directory of your Laravel project
-        server-dir: ../  # Move one level up from public_html (root of your subdomain)
-        exclude: |  # Files/folders to exclude from the deployment
+        server-dir: /  # Path to the root directory (outside public_html)
+        exclude: |
           .git*
           node_modules/
           vendor/
           public/  # Exclude public folder contents
           storage/logs/
-        log-level: verbose  # Detailed logging for debugging
-        timeout: 600  # Increased timeout to prevent connection issues
+        log-level: verbose
+        timeout: 600
+
+    - name: Deploy public folder contents to public_html
+      uses: SamKirkland/FTP-Deploy-Action@4.3.2
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        port: 21
+        local-dir: ./public/  # Only deploy the public folder
+        server-dir: /public_html/  # Path to the public_html folder on Hostinger
+        exclude: |
+          .git*
+        log-level: verbose
+        timeout: 600

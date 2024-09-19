@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EsewaController;
+use App\Http\Controllers\OrderController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,67 +18,68 @@ use App\Http\Controllers\EsewaController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/test',function(){
+
+Route::get('/test', function () {
     return view('UsersPage.booktable');
 });
-Route::get('/',[LandingPage::class,'LandingPage']);
-Route::get('/login',[AuthController::class,'indexview']);
-Route::post('/login',[AuthController::class,'storeindex']);
-Route::get('/sign-up',[AuthController::class,'index']);
-Route::post('/sign-up',[AuthController::class,'storeSignup']);
-Route::get('/email/verification/{token}',[AuthController::class,'verification']);
-Route::middleware('is_admin')->group(function(){
-    Route::get('/logout',[AuthController::class,'logout']);
+// Route::get('/',[LandingPage::class,'LandingPage']);
+Route::get('/', [AuthController::class, 'indexview']);
+Route::post('/', [AuthController::class, 'storeindex']);
+// Route::get('/sign-up',[AuthController::class,'index']);
+// Route::post('/sign-up',[AuthController::class,'storeSignup']);
+// Route::get('/email/verification/{token}',[AuthController::class,'verification']);
+Route::middleware('is_admin')->group(function () {
+    Route::get('/logout', [AuthController::class, 'logout']);
 
-    Route::get('/admin/dashboard',[AdminController::class ,'dashboard']);
-    Route::get('/admin/users/table',[AdminController::class,'userstable']);
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+    Route::get('/admin/users/table', [AdminController::class, 'userstable']);
 
-    Route::get('/admin/profile',[AdminController::class,'profile']);
-    Route::post('/admin/profile',[AdminController::class,'updateprofile']);
-
-
-    Route::get('/admin/add/menu',[AdminController::class,'addMenu']);
-    Route::post('/admin/add/item',[AdminController::class,'additem']);
-    Route::get('/admin/edit/item/{id}',[AdminController::class,'editMenu']);
-    Route::post('/admin/edit/item/',[AdminController::class,'updateMenu']);
+    Route::get('/admin/profile', [AdminController::class, 'profile']);
+    Route::post('/admin/profile', [AdminController::class, 'updateprofile']);
 
 
-    Route::post('/admin/add/category',[AdminController::class,'addCategory']);
-    Route::get('/admin/category/list',[AdminController::class,'showCategory']);
-    Route::get('/admin/category/edit/{id}',[AdminController::class,'editCat']);
-    Route::post('/admin/category/edit/',[AdminController::class,'updateCat']);
-    Route::get('/admin/category/delete/{id}',[AdminController::class,'deleteCat']);
+    Route::get('/admin/add/menu', [AdminController::class, 'addMenu']);
+    Route::post('/admin/add/item', [AdminController::class, 'additem']);
+    Route::get('/admin/edit/item/{id}', [AdminController::class, 'editMenu']);
+    Route::post('/admin/edit/item/', [AdminController::class, 'updateMenu']);
 
 
-    Route::get('/admin/event/list',[AdminController::class,'event']);
-    Route::post('/admin/event/add',[AdminController::class,'eventAdd']);
-    Route::get('/admin/event/edit/{id}',[AdminController::class,'editEvent']);
-    Route::post('/admin/event/edit/',[AdminController::class,'updateEvent']);
-    Route::get('/admin/event/delete/{id}',[AdminController::class,'deleteEvent']);
+    Route::post('/admin/add/category', [AdminController::class, 'addCategory']);
+    Route::get('/admin/category/list', [AdminController::class, 'showCategory']);
+    Route::get('/admin/category/edit/{id}', [AdminController::class, 'editCat']);
+    Route::post('/admin/category/edit/', [AdminController::class, 'updateCat']);
+    Route::get('/admin/category/delete/{id}', [AdminController::class, 'deleteCat']);
 
 
-    Route::get('/admin/employee/list',[AdminController::class,'Employeelist']);
-    Route::post('/admin/employee/add',[AdminController::class,'addEmployee']);
-    Route::get('/admin/employee/edit/{id}',[AdminController::class,'editEmployee']);
-    Route::post('/admin/employee/edit/',[AdminController::class,'updateEmployee']);
-    Route::get('/admin/employee/delete/{id}',[AdminController::class,'deleteEmployee']);
+    Route::get('/admin/event/list', [AdminController::class, 'event']);
+    Route::post('/admin/event/add', [AdminController::class, 'eventAdd']);
+    Route::get('/admin/event/edit/{id}', [AdminController::class, 'editEvent']);
+    Route::post('/admin/event/edit/', [AdminController::class, 'updateEvent']);
+    Route::get('/admin/event/delete/{id}', [AdminController::class, 'deleteEvent']);
 
-    Route::get('/admin/table',[AdminController::class,'Tabledata']);
-    Route::post('/admin/table/add',[AdminController::class,'addTabledata']);
-    Route::get('/admin/table/delete/{id}',[AdminController::class,'deleteTabledata']);
+
+    Route::get('/admin/employee/list', [AdminController::class, 'Employeelist']);
+    Route::post('/admin/employee/add', [AdminController::class, 'addEmployee']);
+    Route::get('/admin/employee/edit/{id}', [AdminController::class, 'editEmployee']);
+    Route::post('/admin/employee/edit/', [AdminController::class, 'updateEmployee']);
+    Route::get('/admin/employee/delete/{id}', [AdminController::class, 'deleteEmployee']);
+
+    Route::get('/admin/table', [AdminController::class, 'Tabledata']);
+    Route::post('/admin/table/add', [AdminController::class, 'addTabledata']);
+    Route::get('/admin/table/delete/{id}', [AdminController::class, 'deleteTabledata']);
 
     // Reservation table Start
-    Route::get('/admin/table/reserved',[AdminController::class,'reservedTable']);
+    Route::get('/admin/table/reserved', [AdminController::class, 'reservedTable']);
 
 
     // ===========================User Route Start=====================================
-    Route::get('/users/booktable',[UserController::class,'booktable'])->name('reservation');
-    Route::get('/users/profile',[UserController::class,'userProfile']);
-    Route::post('/users/profile',[UserController::class,'updateProfile']);
-    Route::get('/users/menu',[UserController::class,'menuitem']);
+    Route::get('/users/booktable', [UserController::class, 'booktable'])->name('reservation');
+    Route::get('/users/profile', [UserController::class, 'userProfile']);
+    Route::post('/users/profile', [UserController::class, 'updateProfile']);
+    Route::get('/users/menu', [UserController::class, 'menuitem']);
 
     // Route::post('/users/store/item',[UserController::class,'storeItems'])->name('store.items');
-    Route::get('/users/show/item/{id}',[UserController::class,'showItems'])->name('show.items');
+    Route::get('/users/show/item/{id}', [UserController::class, 'showItems'])->name('show.items');
     // ===========================User Route End=======================================
 
     Route::get('/payment', [EsewaController::class, 'index'])->name('payment.index');
@@ -84,9 +87,22 @@ Route::middleware('is_admin')->group(function(){
     Route::get('/payment/success', [EsewaController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/payment/failure', [EsewaController::class, 'paymentFailure'])->name('payment.failure');
 
-    Route::get('/admin/order/item',[AdminController::class,'orderTable'])->name('order_table');
-    Route::post('admin/order/item/status/{id}',[AdminController::class,'orderStatus'])->name('order_status');
+    Route::get('/admin/order/item', [AdminController::class, 'orderTable'])->name('order_table');
+    Route::post('admin/order/item/status/{id}', [AdminController::class, 'orderStatus'])->name('order_status');
+
+
+    // Orders Web
+    Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders');
+    Route::get('/admin/delete/orders/{id}', [OrderController::class, 'delete'])->name('delete_orders');
+    Route::post('/save-order', [OrderController::class, 'store']);
+    Route::get('/order-items/{id}/edit', [OrderController::class, 'edit'])->name('order-items.edit');
+    Route::put('/order-items/{id}', [OrderController::class, 'update'])->name('order-items.update');
+
+    // Generate Bill
+    Route::get('/get-order-details/{orderId}', [OrderController::class, 'getOrderDetails']);
+    Route::post('/get-order-details/save', [OrderController::class, 'saveBill'])->name('saveBill');
+
+    Route::get('/admin/bills', [OrderController::class, 'listBills'])->name('bills.index');
+    Route::get('/admin/bills/{orderId}/view', [OrderController::class, 'viewBill'])->name('bills.view');
+    Route::get('/admin/bills/{orderId}/print', [OrderController::class, 'viewBill'])->name('bills.print');
 });
-
-
-

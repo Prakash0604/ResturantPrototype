@@ -3,7 +3,7 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
-            <button type="button" class="btn btn-secondary btn-lg bg-gray-100 text-dark" data-bs-toggle="modal"
+            <button type="button" class="btn btn-success btn-lg bg-gray-100 mt-3 mb-3" data-bs-toggle="modal"
             data-bs-target="#modalId">
                 <i class="bi bi-plus-lg"></i>
                 Add Table
@@ -106,8 +106,8 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a  class="btn btn-primary" >Edit</a>
-                                            <a   class="btn btn-danger deleteTable" data-id="{{ $data->id }}" data-bs-toggle="modal"
+                                            {{-- <a  class="btn btn-primary" >Edit</a> --}}
+                                            <a   class="btn btn-danger deleteTable text-white" data-id="{{ $data->id }}" data-bs-toggle="modal"
                                                 data-bs-target="#deleteModal">Delete</a>
                                         </td>
                                     </tr>
@@ -120,58 +120,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-
-{{-- ===============================Edit Modal Start ==================================== --}}
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form id="updateItem" enctype="multipart/form-data">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitleId">
-                        Edit Item
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="mb-3">
-                            @csrf
-                            <input type="hidden" name="id" id="item_id">
-                            <label for="" class="form-label">Name</label>
-                            <input type="text" name="edit_name" id="edit_name" class="form-control"
-                                placeholder="Enter Item name" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Images</label>
-                            <input type="file" name="edit_images" id="edit_images" class="form-control" />
-                            <div id="image">
-
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="" class="form-label">Description</label>
-                            <textarea name="edit_description" id="edit_description" cols="30" rows="10" class="form-control"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Price</label>
-                            <input type="number" name="edit_price" id="edit_price" class="form-control"
-                                placeholder="Enter the rate " />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Close
-                    </button>
-                    <button type="submit" class="btn btn-primary" id="btnupdate">Update</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
@@ -197,7 +145,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                     </button>
-                    <button type="submit" class="btn btn-primary" id="btndelete">Confirm Delete</button>
+                    <button type="submit" class="btn btn-danger text-white" id="btndelete">Confirm Delete</button>
                 </div>
             </form>
         </div>

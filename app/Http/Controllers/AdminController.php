@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\tabledata;
+use App\Models\Bill;
 use App\Models\User;
 use App\Models\event;
 use App\Models\category;
 use App\Models\menu_item;
 use App\Models\orderfood;
+use App\Models\tabledata;
 use Illuminate\Http\Request;
-use PHPUnit\Framework\fileExists;
 
+use PHPUnit\Framework\fileExists;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -21,7 +22,8 @@ class AdminController extends Controller
     {
         $totaluser = User::where("position", "users")->where('is_admin',0)->count();
         $totalemployee=User::where("position","employee")->count();
-        return view('pages.dashboard', compact('totaluser','totalemployee'));
+        $totalBillAmount = Bill::sum('grand_total');
+        return view('pages.dashboard', compact('totaluser','totalemployee','totalBillAmount'));
     }
     // ================Dashboard Controller End=======================
 

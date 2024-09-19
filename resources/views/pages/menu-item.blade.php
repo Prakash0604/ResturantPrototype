@@ -2,14 +2,15 @@
 @section('content')
     <!-- End Navbar -->
     <div class="container-fluid py-4">
+        <h1 class="text-center ">Menus Items</h1>
         <div class="row">
             <div class="col-12">
-                <button type="button" class="btn btn-secondary btn-lg bg-gray-100 text-dark" data-bs-toggle="modal"
+                <button type="button" class="btn btn-success btn-lg bg-gray-100 mt-3 mb-3" data-bs-toggle="modal"
                 data-bs-target="#modalId">
                     <i class="bi bi-plus-lg"></i>
                     Add Item
                 </button>
-                <a href="{{ url('/admin/category/list') }}" class="btn btn-secondary btn-lg bg-gray-100 text-dark">
+                <a href="{{ url('/admin/category/list') }}" class="btn btn-secondary btn-lg bg-gray-100  mt-3 mb-3">
 
                     View Category
 
@@ -77,25 +78,6 @@
                     <div class="card-header pb-0">
                         <h6>Menu Item</h6>
                     </div>
-                    <div class="card-header pb-0">
-                        <h6>
-                            <form method="get">
-                                <div class="row d-flex">
-                                    {{-- <div class="mb-3"> --}}
-                                    <label for="" class="form-label">Category</label>
-                                    <select class="form-select col-3" name="search">
-                                        <option value="">Show All</option>
-                                        @foreach ($category as $cat)
-                                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    {{-- </div> --}}
-                                    <button class="btn btn-primary">Filter <i class="bi bi-list"></i></button>
-                                </div>
-                            </form>
-                        </h6>
-                    </div>
-
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table align-items-center mb-0 table-bordered">
@@ -132,10 +114,10 @@
                                                 <div>
                                                     @if ($menu->images != '')
                                                         <img src="{{ asset('storage/food/' . $menu->images) }}"
-                                                            class="avatar avatar-sm me-3" alt="user1">
+                                                            class="avatar avatar-sm me-3" alt="user1" width="100" height="100">
                                                     @else
                                                         <img src="{{ asset('default/user.png') }}"
-                                                            class="avatar avatar-sm me-3" alt="user1">
+                                                            class="avatar avatar-sm me-3" alt="user1" width="100" height="100">
                                                     @endif
                                                 </div>
                                             </td>

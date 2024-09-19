@@ -47,7 +47,7 @@
                 </div>
               </div>
             </div>
-            <button class="btn btn-primary">Update Bio</button>
+            <button class="btn btn-success mt-3">Update Bio</button>
           </div>
         </form>
         </div>

@@ -1,7 +1,8 @@
 @extends('index')
 @section('content')
-    <div class="container-fluid py-4">
-        <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#modalId">
+    <div class=" py-4">
+        <h1 class="text-center ">Employee List</h1>
+        <button type="button" class="btn btn-success btn-lg mt-3 mb-4" data-bs-toggle="modal" data-bs-target="#modalId">
             <i class="bi bi-plus-lg"></i>
             Add Employee
         </button>
@@ -41,18 +42,18 @@
                                                     <div>
                                                         @if ($emp->images != '')
                                                             <img src="{{ asset('storage/teams/' . $emp->images) }}"
-                                                                class="avatar avatar-sm me-3" alt="user1">
+                                                                class="avatar avatar-sm" alt="user1" width="100" height="100">
                                                         @elseif($emp->images != '')
                                                             <img src="{{ asset('storage/images/' . $emp->images) }}"
-                                                                class="avatar avatar-sm me-3" alt="user1">
+                                                                class="avatar avatar-sm me-3" alt="user1" width="100" height="100">
                                                         @else
                                                             <img src="{{ asset('default/user.png') }}"
-                                                                class="avatar avatar-sm me-3" alt="user1">
+                                                                class="avatar avatar-sm me-3" alt="user1" width="100" height="100">
                                                         @endif
 
                                                     </div>
                                             </td>
-                                            <td>
+                                            <td class="align-middle text-center text-sm">
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm">{{ $emp->name }}</h6>
                                                     <p class="text-xs text-secondary mb-0">{{ $emp->email }}</p>
@@ -81,9 +82,9 @@
                             <span class="text-secondary text-xs font-weight-bold">{{ $emp->designation }}</span>
                         </td>
                         <td class="align-middle">
-                            <a class="btn btn-primary editEmployee" data-id="{{ $emp->id }}" data-bs-toggle="modal"
+                            <a class="btn btn-primary text-white editEmployee" data-id="{{ $emp->id }}" data-bs-toggle="modal"
                                 data-bs-target="#editModal">Edit</a>
-                            <a class="btn btn-danger deleteEmployee" data-id="{{ $emp->id }}" data-bs-toggle="modal"
+                            <a class="btn btn-danger text-white deleteEmployee" data-id="{{ $emp->id }}" data-bs-toggle="modal"
                                 data-bs-target="#deleteModal">Delete</a>
                         </td>
                         </tr>
