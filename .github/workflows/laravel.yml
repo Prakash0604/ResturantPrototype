@@ -25,7 +25,7 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: 21  # Default FTP port
         local-dir: ./  # Root directory of your Laravel project
-        server-dir: /  # Path to the root directory (outside public_html)
+        server-dir: ../  # Path to the root directory (outside public_html)
         exclude: |
           .git*
           node_modules/
