@@ -32,7 +32,7 @@
                                     <div class="mb-3">
                                         <label for="" class="form-label">Seat Capaicty</label>
                                         <input type="number" name="seat_capicity" class="form-control"
-                                            placeholder="Enter the rate " />
+                                            placeholder="Enter the capacity " />
                                     </div>
                                     <div class="mb-3">
                                         <label for="" class="form-label">Status</label>

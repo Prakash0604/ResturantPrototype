@@ -5,6 +5,7 @@
     <title>Resturant Management System</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 
@@ -16,6 +17,7 @@
 />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('sidebar/css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -45,6 +47,12 @@
                     </li>
                     <li>
                         <a href="{{ route('bills.index') }}"><span class="fa fa-paper-plane mr-3"></span> Billing</a>
+                    </li>
+                     <li>
+                        <a href="{{ route('ingredients.index') }}"><span class="fa fa-paper-plane mr-3"></span> Ingredient</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('stocks.index') }}"><span class="fa fa-paper-plane mr-3"></span> Stocks</a>
                     </li>
                     <li>
                     <li>
@@ -81,7 +89,7 @@
     integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
     crossorigin="anonymous"
 ></script>
-    <script src="{{ asset('sidebar/js/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('sidebar/js/jquery.min.js') }}"></script> --}}
     <script src="{{ asset('sidebar/js/popper.js') }}"></script>
     <script src="{{ asset('sidebar/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('sidebar/js/main.js') }}"></script>

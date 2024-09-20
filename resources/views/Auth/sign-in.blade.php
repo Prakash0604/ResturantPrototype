@@ -2,97 +2,94 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('logo.png') }}">
-  <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
-  <title>
-    Resturant Management System
-  </title>
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-  <!-- Nucleo Icons -->
-  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-  <!-- CSS Files -->
-  <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
+    <title>Resturant Management System | Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{{ asset('login/images/icons/favicon.ico') }}" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ 'login/vendor/bootstrap/css/bootstrap.min.css' }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ 'login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ 'login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ 'login/vendor/animate/animate.css' }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ 'login/vendor/css-hamburgers/hamburgers.min.css' }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ 'login/vendor/animsition/css/animsition.min.css' }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ 'login/vendor/select2/select2.min.css' }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ 'login/vendor/daterangepicker/daterangepicker.css' }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ 'login/css/util.css' }}">
+    <link rel="stylesheet" type="text/css" href="{{ 'login/css/main.css' }}">
+    <!--===============================================================================================-->
 </head>
 
-<body class="">
-  <main class="main-content  mt-0">
-    <section>
-      <div class="page-header min-vh-100">
-        <div class="container">
-          <div class="row">
-            @if (session()->has('success'))
-            <div class="alert alert-success text-white" id="messages">{{ session()->get('success') }}</div>
-          @endif
-            <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
-              <div class="card card-plain">
-                <div class="card-header pb-0 text-start">
-                  <h4 class="font-weight-bolder">Sign In</h4>
-                  <p class="mb-0">Enter your email and password to sign in</p>
-                </div>
-                <div class="card-body">
-                    @if (session()->has('message'))
-                        <div class="alert alert-danger text-white text-center">{{ session()->get('message') }}</div>
-                    @endif
-                  <form method="POST">
+<body>
+
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('login/images/bg-01.jpg');">
+            <div class="wrap-login100 p-t-30 p-b-50">
+                <span class="login100-form-title p-b-41">
+                    Account Login
+                </span>
+                @if (session()->has('message'))
+                    <div class="alert alert-danger text-dark text-center">{{ session()->get('message') }}</div>
+                @endif
+                <form class="login100-form validate-form p-b-33 p-t-5" method="POST">
                     @csrf
-                    <div class="mb-3">
-                      <input type="email" class="form-control form-control-lg" placeholder="Email" name="email">
-                      @error('email')
-                          <span class="text-danger">{{ $message }}</span>
-                      @enderror
+
+                    <div class="wrap-input100 validate-input" data-validate = "Enter username">
+                        <input class="input100" type="email" name="email" placeholder="User name">
+                        <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+                        @error('email')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <div class="mb-3">
-                      <input type="password" class="form-control form-control-lg" placeholder="Password" name="password">
-                      @error('password')
-                          <span class="text-danger">{{ $message }}</span>
-                      @enderror
+
+                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                        <input class="input100" type="password" name="password" placeholder="Password">
+                        <span class="focus-input100" data-placeholder="&#xe80f;"></span>
+                        @error('password')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Sign in</button>
+
+                    <div class="container-login100-form-btn m-t-32">
+                        <button class="login100-form-btn">
+                            Login
+                        </button>
                     </div>
-                  </form>
-                </div>
-                {{-- <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                  <p class="mb-4 text-sm mx-auto">
-                    Don't have an account?
-                    <a href="{{ asset('sign-up') }}" class="text-primary text-gradient font-weight-bold">Sign up</a>
-                  </p>
-                </div> --}}
-              </div>
+
+                </form>
             </div>
-            <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-              <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg');
-          background-size: cover;">
-                <span class="mask bg-gradient-primary opacity-6"></span>
-                <h4 class="mt-5 text-white font-weight-bolder position-relative">"Attention is the new currency"</h4>
-                <p class="text-white position-relative">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
-  </main>
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
+    </div>
+
+
+    <div id="dropDownSelect1"></div>
+
+    <!--===============================================================================================-->
+    <script src="{{ asset('login/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+    <!--===============================================================================================-->
+    <script src="{{ asset('login/vendor/animsition/js/animsition.min.js') }}"></script>
+    <!--===============================================================================================-->
+    <script src="{{ asset('login/vendor/bootstrap/js/popper.js') }}"></script>
+    <script src="{{ asset('login/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <!--===============================================================================================-->
+    <script src="{{ asset('login/vendor/select2/select2.min.js') }}"></script>
+    <!--===============================================================================================-->
+    <script src="{{ asset('login/vendor/daterangepicker/moment.min.js') }}"></script>
+    <script src="{{ asset('login/vendor/daterangepicker/daterangepicker.js') }}"></script>
+    <!--===============================================================================================-->
+    <script src="{{ asset('login/vendor/countdowntime/countdowntime.js') }}"></script>
+    <!--===============================================================================================-->
+    <script src="{{ asset('login/js/main.js') }}"></script>
+
 </body>
 
 </html>

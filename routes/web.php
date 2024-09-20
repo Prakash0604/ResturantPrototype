@@ -7,6 +7,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EsewaController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\StockController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -105,4 +109,18 @@ Route::middleware('is_admin')->group(function () {
     Route::get('/admin/bills', [OrderController::class, 'listBills'])->name('bills.index');
     Route::get('/admin/bills/{orderId}/view', [OrderController::class, 'viewBill'])->name('bills.view');
     Route::get('/admin/bills/{orderId}/print', [OrderController::class, 'viewBill'])->name('bills.print');
+
+
+    // Inventory
+
+    Route::get('/admin/ingredients', [IngredientController::class, 'index'])->name('ingredients.index');
+    Route::post('/admin/ingredients/store', [IngredientController::class, 'store'])->name('ingredients.store');
+    Route::delete('/admin/ingredients/{id}', [IngredientController::class, 'destroy'])->name('ingredients.destroy');
+
+
+    Route::get('/admin/stocks', [StockController::class, 'index'])->name('stocks.index');
+    Route::post('/admin/stocks/store', [StockController::class, 'store'])->name('stocks.store');
+    Route::get('/admin/stocks/{id}', [StockController::class, 'show'])->name('stocks.show');
+    Route::put('/admin/stocks/{id}', [StockController::class, 'update'])->name('stocks.update');
+    Route::delete('/admin/stocks/{id}', [StockController::class, 'destroy'])->name('stocks.destroy');
 });
