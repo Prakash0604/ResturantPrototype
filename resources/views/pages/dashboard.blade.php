@@ -185,7 +185,7 @@
         var dashboardBarChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Employees', 'Bill Amount', 'Bill Count', 'Stocks', 'Suppliers', 'Purchases'],
+                labels: ['Employees', 'Todays Collection', 'Todays Bill', 'Stocks', 'Suppliers', 'Purchases'],
                 datasets: [{
                     label: 'Dashboard Data',
                     data: [
