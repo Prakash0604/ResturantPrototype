@@ -8,6 +8,10 @@ use App\Models\event;
 use App\Models\category;
 use App\Models\menu_item;
 use App\Models\orderfood;
+use App\Models\OrderItem;
+use App\Models\Purchase;
+use App\Models\Stock;
+use App\Models\Supplier;
 use App\Models\tabledata;
 use Illuminate\Http\Request;
 
@@ -23,7 +27,12 @@ class AdminController extends Controller
         $totaluser = User::where("position", "users")->where('is_admin',0)->count();
         $totalemployee=User::where("position","employee")->count();
         $totalBillAmount = Bill::whereDate('created_at',date('Y-m-d'))->sum('grand_total');
-        return view('pages.dashboard', compact('totaluser','totalemployee','totalBillAmount'));
+        $totalBillNumber = Bill::whereDate('created_at',date('Y-m-d'))->count();
+        $stocks = Stock::count();
+        $suppliers = Supplier::count();
+        $purchases = Purchase::count();
+
+        return view('pages.dashboard', compact('totaluser','totalemployee','totalBillAmount','totalBillNumber','stocks','suppliers','purchases'));
     }
     // ================Dashboard Controller End=======================
 

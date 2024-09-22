@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{{ asset('sidebar/css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -45,7 +47,7 @@
                         <a href="{{ url('/admin/table') }}"><i class="bi bi-table"></i> Table </a>
                     </li>
                     <li>
-                        <a href="{{ route('orders') }}"><i class="bi bi-card-list"></i> Order List</a>
+                        <a href="{{ route('orders.index') }}"><i class="bi bi-card-list"></i> Order List</a>
                     </li>
                     <li>
                         <a href="{{ route('bills.index') }}"><span class="bi bi-cash-stack"></span>  Billing</a>

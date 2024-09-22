@@ -17,9 +17,12 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $n=1;
+                @endphp
                 @forelse ($purchases as $purchase)
                     <tr>
-                        <td>{{ $purchase->id }}</td>
+                        <td>{{ $n++ }}</td>
                         <td>{{ $purchase->supplier->name }}</td>
                         <td>{{ $purchase->purchase_date }}</td>
                         <td>Rs.{{ $purchase->total_price }}/only</td>

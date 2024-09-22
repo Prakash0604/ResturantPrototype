@@ -65,7 +65,7 @@ Route::middleware('is_admin')->group(function () {
     Route::get('/admin/event/delete/{id}', [AdminController::class, 'deleteEvent']);
 
 
-    Route::get('/admin/employee/list', [AdminController::class, 'Employeelist']);
+    Route::get('/admin/employee/list', [AdminController::class, 'Employeelist'])->name('employee.index');
     Route::post('/admin/employee/add', [AdminController::class, 'addEmployee']);
     Route::get('/admin/employee/edit/{id}', [AdminController::class, 'editEmployee']);
     Route::post('/admin/employee/edit/', [AdminController::class, 'updateEmployee']);
@@ -99,7 +99,7 @@ Route::middleware('is_admin')->group(function () {
 
 
     // Orders Web
-    Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders');
+    Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/admin/delete/orders/{id}', [OrderController::class, 'delete'])->name('delete_orders');
     Route::post('/save-order', [OrderController::class, 'store']);
     Route::get('/order-items/{id}/edit', [OrderController::class, 'edit'])->name('order-items.edit');
