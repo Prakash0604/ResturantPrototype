@@ -27,12 +27,14 @@ class AuthController extends Controller
         $users->email=$request->email;
         $users->password=$request->password;
         $users->is_verified=1;
+        $users->position="employee";
         $file=$request->images;
         if($file){
             $filename=time()."-".$file->getclientOriginalName();
             $file->storeAs('public/images/'.$filename);
             $users->images=$filename;
         }
+
         $users->remember_token=$token;
         $users->save();
         // $domain=URL::to('/');
