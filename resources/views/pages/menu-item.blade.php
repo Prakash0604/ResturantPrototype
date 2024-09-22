@@ -152,12 +152,15 @@
                                             </td>
                                         </tr>
                                     @empty
-                                        {{-- <tr>
+                                        <tr>
                         <td colspan="5" class="text-center">No data found</td>
-                    </tr> --}}
+                    </tr>
                                     @endforelse
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="mt-3 ml-3">
+                            {{ $menuitems->links() }}
                         </div>
                     </div>
                 </div>
@@ -227,6 +230,35 @@
     </div>
 
     {{-- ===============================Edit Modal End ==================================== --}}
+
+      <!--Delete Modal-->
+      <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <form id="deleteMenu" enctype="multipart/form-data">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="modalTitleId">
+                          Delete Item
+                      </h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      @csrf
+                      <h4 class="text-danger">Are you sure you want to delete ?</h4>
+                      </div>
+                   <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                          Close
+                      </button>
+                      <button type="submit" class="btn btn-primary btnDeleteConfirm" id="btnDelete">Confirm Delete</button>
+                  </div>
+              </form>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!--Delete Modal-->
     <script>
         $(document).ready(function() {
             $("#add_item").submit(function(e) {
@@ -331,7 +363,49 @@
                     }
                 })
 
-            })
+            });
+            $(document).on("click",".deleteMenu",function(){
+                    var id=$(this).attr("data-id");
+                    // console.log(id);
+                    // let input=$("#catid").val(id);
+                    // console.log(input);
+                    $("#deleteMenu").submit(function(e){
+                        e.preventDefault();
+                        $(".btnDeleteConfirm").text("Deleting...");
+                        $(".btnDeleteConfirm").prop("disabled",true);
+                        // var id=$(this).serialize;
+                        $.ajax({
+                            method:"get",
+                            url:"{{ url('/admin/item/delete/') }}/"+id,
+                            success:function(data){
+                                // console.log(data);
+                                if(data.success==true){
+                                    Swal.fire({
+                                        icon:"success",
+                                        title:"Menu deleted",
+                                        showConfirmButton:false,
+                                        timer:1500,
+                                    });
+                                    setTimeout(() => {
+                                        location.reload();
+                                    }, 1500);
+                                }
+                                if(data.success==false){
+                                    Swal.fire({
+                                        icon:"error",
+                                        title:"Unable to delete ",
+                                        text:"Alredy tagged in another menu",
+                                        showConfirmButton:false,
+                                        timer:1500
+                                    });
+                                    $(".btnDeleteConfirm").prop("disabled",false);
+                                     $(".btnDeleteConfirm").text("Confirm Delete");
+                                }
+                            }
+                        })
+
+                    })
+                })
         });
     </script>
 @endsection

@@ -93,7 +93,7 @@
                                 @endphp
                                 @foreach ($tabledatas as $data)
                                     <tr>
-                                        <td>{{ $n }}</td>
+                                        <td>{{ $n++ }}</td>
                                         <td>{{ $data->table_number }}</td>
                                         <td>{{ $data->seat_capicity }}</td>
                                         <td>
@@ -111,12 +111,12 @@
                                                 data-bs-target="#deleteModal">Delete</a>
                                         </td>
                                     </tr>
-                                    @php
-                                        $n=$n+1;
-                                    @endphp
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mt-3 ml-3">
+                        {{ $tabledatas->links() }}
                     </div>
                 </div>
             </div>

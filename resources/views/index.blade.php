@@ -4,6 +4,7 @@
 <head>
     <title>Resturant Management System</title>
     <meta charset="utf-8">
+     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
@@ -16,6 +17,7 @@
     crossorigin="anonymous"
 />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{{ asset('sidebar/css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -34,32 +36,38 @@
                 <h1><a href="{{ url('admin/dashboard') }}" class="logo">Dashboard</a></h1>
                 <ul class="list-unstyled components mb-5">
                     <li class="active">
-                        <a href="{{ url('admin/employee/list') }}"><span class="fa fa-home mr-3"></span> Employee</a>
+                        <a href="{{ url('admin/employee/list') }}"><i class="bi bi-people-fill"></i> Employee</a>
                     </li>
                     <li>
-                        <a href="{{ url('admin/add/menu') }}"><span class="fa fa-user mr-3"></span> Menus</a>
+                        <a href="{{ url('admin/add/menu') }}"><i class="bi bi-list"></i> Menus</a>
                     </li>
                     <li>
-                        <a href="{{ url('/admin/table') }}"><span class="fa fa-briefcase mr-3"></span>Table </a>
+                        <a href="{{ url('/admin/table') }}"><i class="bi bi-table"></i> Table </a>
                     </li>
                     <li>
-                        <a href="{{ route('orders') }}"><span class="fa fa-sticky-note mr-3"></span> Order List</a>
+                        <a href="{{ route('orders') }}"><i class="bi bi-card-list"></i> Order List</a>
                     </li>
                     <li>
-                        <a href="{{ route('bills.index') }}"><span class="fa fa-paper-plane mr-3"></span> Billing</a>
+                        <a href="{{ route('bills.index') }}"><span class="bi bi-cash-stack"></span>  Billing</a>
                     </li>
                      <li>
-                        <a href="{{ route('ingredients.index') }}"><span class="fa fa-paper-plane mr-3"></span> Ingredient</a>
+                        <a href="{{ route('ingredients.index') }}"><i class="bi bi-diagram-3"></i>  Ingredient</a>
                     </li>
                     <li>
-                        <a href="{{ route('stocks.index') }}"><span class="fa fa-paper-plane mr-3"></span> Stocks</a>
+                        <a href="{{ route('stocks.index') }}"><i class="bi bi-calendar3-event-fill"></i> Stocks</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('suppliers.index') }}"><i class="bi bi-calendar3-event-fill"></i> Supplier</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('purchases.index') }}"><i class="bi bi-gear-wide-connected"></i> Purchase</a>
                     </li>
                     <li>
                     <li>
-                        <a href="{{ url('admin/profile') }}"><span class="fa fa-paper-plane mr-3"></span> Profile</a>
+                        <a href="{{ url('admin/profile') }}"><i class="bi bi-person-circle"></i> Profile</a>
                     </li>
                     <li>
-                    <a href="{{ url('logout') }}"><span class="fa fa-paper-plane mr-3"></span> LogOut</a>
+                    <a href="{{ url('logout') }}"><i class="bi bi-box-arrow-in-right"></i> LogOut</a>
                     </li>
                 </ul>
 

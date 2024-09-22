@@ -17,7 +17,7 @@ class OrderController extends Controller
     {
         $tables = tabledata::where('status', 'Available')->get();
         $menus = menu_item::all();
-        $orders = OrderItem::with(['Order', 'menu'])->orderBy('id', 'desc')->get()->groupBy('order_id');
+        $orders = OrderItem::with(['Order', 'menu'])->whereDate('created_at',date('Y-m-d'))->orderBy('id', 'desc')->get()->groupBy('order_id');
         return view('pages.orders', compact('tables', 'menus', 'orders'));
     }
 
@@ -127,7 +127,7 @@ class OrderController extends Controller
                 'status' => 1,
             ]);
 
-            tabledata::where('id', $request->tables_id[0])->update([
+            tabledata::where('id', $request->getTableid)->update([
                 'status' => 'Available',
             ]);
 
@@ -174,7 +174,7 @@ class OrderController extends Controller
 
     public function listBills()
     {
-        $bills = Bill::with('order')->get();
+        $bills = Bill::with('order')->whereDate('created_at',date('Y-m-d'))->paginate(10);
         return view('pages.BillList', compact('bills'));
     }
 }

@@ -74,6 +74,7 @@
                           <p class="text-bold">Order Complete</p>
                       </td>
                       @endif
+                      
                     </tr>
                     @php
                         $n=$n+1;

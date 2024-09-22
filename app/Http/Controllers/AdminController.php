@@ -22,7 +22,7 @@ class AdminController extends Controller
     {
         $totaluser = User::where("position", "users")->where('is_admin',0)->count();
         $totalemployee=User::where("position","employee")->count();
-        $totalBillAmount = Bill::sum('grand_total');
+        $totalBillAmount = Bill::whereDate('created_at',date('Y-m-d'))->sum('grand_total');
         return view('pages.dashboard', compact('totaluser','totalemployee','totalBillAmount'));
     }
     // ================Dashboard Controller End=======================
@@ -86,7 +86,7 @@ class AdminController extends Controller
 
         // }else{
 
-            $menuitems=menu_item::with('category')->get();
+            $menuitems=menu_item::with('category')->paginate(4);
         // }
         return view('pages.menu-item',compact('category','menuitems'));
     }
@@ -149,6 +149,16 @@ class AdminController extends Controller
             return response()->json(['success'=>true]);
         }catch(\Exception $e){
             return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+    }
+
+    public function deleteItems($id){
+        try {
+            $category = menu_item::find($id);
+            $category->delete();
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, "message" => $e->getMessage()]);
         }
     }
     // ================Menu Controller End=======================
@@ -294,7 +304,7 @@ class AdminController extends Controller
     // =======Teams Member Start =================
 
     public function Employeelist(){
-        $employees=User::where('position','employee')->get();
+        $employees=User::where('position','employee')->paginate(4);
         return view('pages.employee',compact('employees'));
     }
 
@@ -393,7 +403,7 @@ class AdminController extends Controller
     // =======Teams Member End ===================
 
     public function Tabledata(){
-        $tabledatas=tabledata::all();
+        $tabledatas=tabledata::paginate(5);
         return view('pages.booktable',compact('tabledatas'));
     }
     public function addTabledata(Request $request){

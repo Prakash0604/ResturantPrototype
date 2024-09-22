@@ -95,6 +95,9 @@
                         @endforelse
                         </tbody>
                         </table>
+                        <div class="mt-4 ml-3">
+                            {{ $employees->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

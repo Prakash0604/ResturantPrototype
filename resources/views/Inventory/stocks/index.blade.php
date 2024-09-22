@@ -13,6 +13,7 @@
         <table class="table mt-3 table-bordered">
             <thead>
                 <tr>
+                    <th>S.N</th>
                     <th>Ingredient</th>
                     <th>Quantity</th>
                     <th>Unit</th>
@@ -20,8 +21,12 @@
                 </tr>
             </thead>
             <tbody id="stockTable">
+                @php
+                    $n=1;
+                @endphp
                 @foreach ($stocks as $stock)
                     <tr id="stock-{{ $stock->id }}">
+                        <td>{{ $n++ }}</td>
                         <td>{{ $stock->ingredient->name }}</td>
                         <td>{{ $stock->quantity }}</td>
                         <td>{{ $stock->unit }}</td>
@@ -34,6 +39,9 @@
                 @endforeach
             </tbody>
         </table>
+        <div>
+            {{ $stocks->links() }}
+        </div>
 
         <!-- Modal for Adding Stock -->
         <div class="modal fade" id="stockModal" tabindex="-1" aria-labelledby="stockModalLabel" aria-hidden="true">

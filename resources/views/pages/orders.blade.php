@@ -105,7 +105,7 @@
 
                     <h5 class="card-title">Seat Capacity: {{ $orderGroup->first()->order->table->seat_capicity }}</h5>
                     @if ($orderGroup->first()->status ==0)
-                    <a class="btn btn-primary totalBills mb-4 text-white" data-bs-toggle="modal" data-bs-target="#totalBillModal"
+                    <a class="btn btn-primary totalBills mb-4 text-white" data-bs-toggle="modal" data-table-id="{{ $orderGroup->first()->order->table_id }}" data-bs-target="#totalBillModal"
                     data-id="{{ $orderGroup->first()->order_id }}">Total Bill</a><br>
 
                     <a class="btn btn-warning  editOrderItemBtn " data-id="{{ $orderGroup->first()->order_id }}"
@@ -114,6 +114,8 @@
 
                     <a class="btn btn-danger deleteOrders " data-bs-toggle="modal" data-bs-target="#deleteModal"
                         data-id="{{ $orderGroup->first()->order_id }}">Delete Order</a>
+                        @else
+                        <h4>Bill has been Generated</h4>
                         @endif
                 </div>
                 <div class="card-footer text-body-secondary bg-secondary text-white">
@@ -479,12 +481,14 @@
             // Function to open the total bill modal and load the menu items
             $(document).on('click', '.totalBills', function() {
                 let orderId = $(this).attr('data-id');
+                let table_id=$(this).attr('data-table-id');
+                console.log(table_id);
                 // console.log(orderId);
-                loadBillDetails(orderId); // Fetch order details
+                loadBillDetails(orderId,table_id); // Fetch order details
             });
 
             // Fetch order details and populate the bill modal
-            function loadBillDetails(orderId) {
+            function loadBillDetails(orderId,table_id) {
                 $.ajax({
                     url: '/get-order-details/' + orderId, // Modify according to your route
                     method: 'GET',
@@ -498,6 +502,7 @@
                             $('#billItemsContainer').append(
                                 `<tr>
                             <td>
+                                <input type="hidden" name="getTableid" value="${table_id}">
                                 <input type="hidden" name="tables_id[]" value="${item.order.id}">
                                 <input type="hidden" name="menus_id[]" value="${item.menu.id}">
                                  <input type="text" class="form-control"  value="${item.menu.name}" readonly/>

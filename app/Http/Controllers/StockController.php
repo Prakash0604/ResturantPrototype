@@ -10,7 +10,7 @@ class StockController extends Controller
 {
     public function index()
     {
-        $stocks = Stock::with('ingredient')->get();
+        $stocks = Stock::with('ingredient')->paginate(5);
         $ingredients = Ingredient::all();
         return view('Inventory.stocks.index', compact('stocks', 'ingredients'));
     }

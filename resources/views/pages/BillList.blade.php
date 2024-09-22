@@ -34,6 +34,9 @@
             </tbody>
         </table>
     </div>
+    <div>
+        {{ $bills->links() }}
+    </div>
 
 </div>
 @endsection

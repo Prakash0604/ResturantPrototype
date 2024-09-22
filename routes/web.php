@@ -7,8 +7,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EsewaController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\IngredientController;
 
 
 
@@ -46,6 +48,7 @@ Route::middleware('is_admin')->group(function () {
     Route::post('/admin/add/item', [AdminController::class, 'additem']);
     Route::get('/admin/edit/item/{id}', [AdminController::class, 'editMenu']);
     Route::post('/admin/edit/item/', [AdminController::class, 'updateMenu']);
+    Route::get('/admin/item/delete/{id}', [AdminController::class, 'deleteItems']);
 
 
     Route::post('/admin/add/category', [AdminController::class, 'addCategory']);
@@ -102,6 +105,7 @@ Route::middleware('is_admin')->group(function () {
     Route::get('/order-items/{id}/edit', [OrderController::class, 'edit'])->name('order-items.edit');
     Route::put('/order-items/{id}', [OrderController::class, 'update'])->name('order-items.update');
 
+
     // Generate Bill
     Route::get('/get-order-details/{orderId}', [OrderController::class, 'getOrderDetails']);
     Route::post('/get-order-details/save', [OrderController::class, 'saveBill'])->name('saveBill');
@@ -123,4 +127,16 @@ Route::middleware('is_admin')->group(function () {
     Route::get('/admin/stocks/{id}', [StockController::class, 'show'])->name('stocks.show');
     Route::put('/admin/stocks/{id}', [StockController::class, 'update'])->name('stocks.update');
     Route::delete('/admin/stocks/{id}', [StockController::class, 'destroy'])->name('stocks.destroy');
+
+    // Supplier
+    Route::resource('suppliers', SupplierController::class);
+    // Purchase
+
+
+    Route::get('purchases', [PurchaseController::class, 'index'])->name('purchases.index');
+    Route::post('purchases/store', [PurchaseController::class, 'store'])->name('purchases.store');
+    Route::get('purchases/edit/{id}', [PurchaseController::class, 'edit'])->name('purchases.edit');
+    Route::post('purchases/update/{id}', [PurchaseController::class, 'update'])->name('purchases.update');
+    Route::delete('purchases/destroy/{id}', [PurchaseController::class, 'destroy'])->name('purchases.destroy');
+    Route::get('purchases/show/{id}', [PurchaseController::class, 'show'])->name('purchases.show');
 });
