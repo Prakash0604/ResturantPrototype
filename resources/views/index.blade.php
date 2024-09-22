@@ -79,7 +79,7 @@
         </nav>
 
         <!-- Page Content  -->
-        <div id="content" class="p-4 p-md-5 pt-5">
+        <div id="content" class="p-4 p-md-5 pt-5" style="background: linear-gradient(to right, #00c6ff, #0072ff);">
            <div class="container">
             @yield('content')
            </div>

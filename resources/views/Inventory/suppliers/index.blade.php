@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2>Suppliers Management</h2>
+        <h2 class="text-center">Suppliers Management</h2>
 
         <!-- Add Supplier Button -->
         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addSupplierModal">Add Supplier</button>
@@ -38,7 +38,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center">No data found</td>
+                        <td colspan="6" class="text-center">No data found</td>
                     </tr>
                 @endforelse
             </tbody>

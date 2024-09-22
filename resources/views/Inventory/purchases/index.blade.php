@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Purchases</h1>
+        <h1 class="text-center">Purchases</h1>
         <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#purchaseModal">Add Purchase</button>
 
         <!-- Purchases Table -->
@@ -17,12 +17,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($purchases as $purchase)
+                @forelse ($purchases as $purchase)
                     <tr>
                         <td>{{ $purchase->id }}</td>
                         <td>{{ $purchase->supplier->name }}</td>
                         <td>{{ $purchase->purchase_date }}</td>
-                        <td>${{ $purchase->total_price }}</td>
+                        <td>Rs.{{ $purchase->total_price }}/only</td>
                         <td>
                             <button class="btn btn-info btn-sm" onclick="viewPurchase({{ $purchase->id }})">View</button>
                             <button class="btn btn-warning btn-sm" onclick="editPurchase({{ $purchase->id }})">Edit</button>
@@ -30,7 +30,11 @@
                                 onclick="deletePurchase({{ $purchase->id }})">Delete</button>
                         </td>
                     </tr>
-                @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center">No data found</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
@@ -97,7 +101,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary" id="btnSave">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -155,7 +159,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update Purchase</button>
+                        <button type="submit" class="btn btn-primary btnUpdate">Update Purchase</button>
                     </div>
                 </form>
             </div>
@@ -249,15 +253,38 @@
         $('#purchaseForm').on('submit', function(e) {
             e.preventDefault();
             let formData = $(this).serialize(); // Serialize form data
-
+            $("#btnSave").text("Saving...");
+            $("#btnSave").prop("disabled",true);
             // AJAX request to submit the purchase data
             $.ajax({
                 url: '/purchases/store', // Replace with your route
                 method: 'POST',
                 data: formData,
                 success: function(response) {
-                    alert('Purchase saved successfully!');
-                    console.log(response);
+                    // alert('Purchase saved successfully!');
+                    // console.log(response);
+                    if (response.success == true) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Purchase saved successfully",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1500);
+
+                            } else {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Something went wrong ?",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                $("#btnSave").text("Save");
+                                $("#btnSave").prop("disabled", false);
+                            }
                     $('#purchaseModal').modal('hide'); // Hide the modal
                 },
 
@@ -327,7 +354,10 @@
 
             // Update
             $('#editPurchaseForm').on('submit', function(event) {
+
                 event.preventDefault(); // Prevent the default form submission
+                $(".btnUpdate").text("Updating...");
+                $(".btnUpdate").prop("disabled",true);
 
                 const formData = $(this).serialize(); // Serialize the form data
 
@@ -337,19 +367,31 @@
                     data: formData,
                     success: function(response) {
                         if (response.success) {
-                            // Optionally, refresh the table or list of purchases
-                            // Reload purchases or refresh the table
+                            if (response.success == true) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Purchase Updated successfully",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1500);
+
+                            } else {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Something went wrong ?",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                $(".btnUpdate").text("Update Purchase");
+                                $(".btnUpdate").prop("disabled",false);
+                            }
                             $('#editPurchaseModal').modal('hide'); // Close the modal
-                            alert('Purchase updated successfully!');
-                            location.reload(); // Reload the page to see changes
-                        } else {
-                            alert('Failed to update purchase: ' + response.message);
                         }
                     },
-                    error: function(xhr) {
-                        console.error(xhr.responseText);
-                        alert('An error occurred while updating the purchase.');
-                    }
                 });
             });
         }
@@ -415,7 +457,13 @@
                     </table>`;
                     purchase.details.forEach(function(detail) {
                         details +=
-                            `<li>Ingrediance Name : ${detail.ingredient.name}, Quantity: ${detail.quantity} ,units - $${detail.price}</li>`;
+                            `
+                            <ul class="list-group list-group-horizontal mb-2 mt-2">
+                            <li class="list-group-item"><b>Ingrediance:</b> ${detail.ingredient.name}</li>
+                            <li class="list-group-item"><b>Quantity:</b> ${detail.quantity}</li>
+                            <li class="list-group-item"><b>Rate:</b> ${detail.price}</li>
+                           </ul>
+                            `;
                     });
                     details += `</ul>`;
                     $('#purchaseDetails').html(details);

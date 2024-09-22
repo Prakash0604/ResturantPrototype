@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2>Stock Management</h2>
+        <h2 class="text-center">Stock Management</h2>
 
         <!-- Button to trigger the modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#stockModal">
@@ -24,7 +24,7 @@
                 @php
                     $n=1;
                 @endphp
-                @foreach ($stocks as $stock)
+                @forelse ($stocks as $stock)
                     <tr id="stock-{{ $stock->id }}">
                         <td>{{ $n++ }}</td>
                         <td>{{ $stock->ingredient->name }}</td>
@@ -36,7 +36,11 @@
                             <button class="btn btn-danger btn-sm delete-btn" data-id="{{ $stock->id }}">Delete</button>
                         </td>
                     </tr>
-                @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center">No data found</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
         <div>
