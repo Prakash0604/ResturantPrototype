@@ -100,7 +100,8 @@ Route::middleware('is_admin')->group(function () {
 
     // Orders Web
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/admin/delete/orders/{id}', [OrderController::class, 'delete'])->name('delete_orders');
+    Route::get('/admin/orders/previous-pending', [OrderController::class, 'previousPending'])->name('orders.pending');
+    Route::get('/admin/delete/orders/{id}/{table_id}', [OrderController::class, 'delete'])->name('delete_orders');
     Route::post('/save-order', [OrderController::class, 'store']);
     Route::get('/order-items/{id}/edit', [OrderController::class, 'edit'])->name('order-items.edit');
     Route::put('/order-items/{id}', [OrderController::class, 'update'])->name('order-items.update');

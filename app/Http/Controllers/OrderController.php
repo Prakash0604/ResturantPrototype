@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\menu_item;
 use App\Models\OrderItem;
 use App\Models\tabledata;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,8 +18,18 @@ class OrderController extends Controller
     {
         $tables = tabledata::where('status', 'Available')->get();
         $menus = menu_item::all();
-        $orders = OrderItem::with(['Order', 'menu'])->whereDate('created_at',date('Y-m-d'))->orderBy('id', 'desc')->get()->groupBy('order_id');
+        $orders = OrderItem::with(['Order', 'menu'])->whereDate('created_at', date('Y-m-d'))->orderBy('id', 'desc')->get()->groupBy('order_id');
         return view('pages.orders', compact('tables', 'menus', 'orders'));
+    }
+
+
+    public function previousPending()
+    {
+        $tables = tabledata::where('status', 'Available')->get();
+        $menus = menu_item::all();
+        $orders = OrderItem::with(['Order', 'menu'])->whereDate('created_at', date('Y-m-d'))->orderBy('id', 'desc')->get()->groupBy('order_id');
+        $pending = OrderItem::with(['Order', 'menu'])->where('status', 0)->whereDate('created_at', '<', Carbon::today())->orderBy('id', 'desc')->get()->groupBy('order_id');
+        return view('pages.pendingPreviousOrder', compact('tables', 'menus', 'orders', 'pending'));
     }
 
     public function store(Request $request)
@@ -51,15 +62,27 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function delete($id)
+    public function delete($id, $table_id)
     {
         try {
-            $id = OrderItem::where('order_id', $id)->delete();
+            tabledata::where('id', '=', $table_id)->update([
+                'status' => 'Available',
+            ]);
+            // First, delete OrderItems based on the original order ID
+            $order_id = $id; // Store original order ID
+            $orderItemDeleteCount = OrderItem::where('order_id', $order_id)->delete();
+
+            // Check if any OrderItems were deleted, then proceed to delete the Order
+            if ($orderItemDeleteCount > 0) {
+                // Delete the Order using the original order ID
+                Order::where('id', $order_id)->delete();
+            }
             return response()->json(['success' => true, 'message' => $id]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
+
 
     // Controller for editing order
     public function edit($orderId)
@@ -174,7 +197,7 @@ class OrderController extends Controller
 
     public function listBills()
     {
-        $bills = Bill::with('order')->whereDate('created_at',date('Y-m-d'))->paginate(10);
+        $bills = Bill::with('order')->whereDate('created_at', date('Y-m-d'))->paginate(10);
         return view('pages.BillList', compact('bills'));
     }
 }

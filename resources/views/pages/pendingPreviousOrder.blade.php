@@ -6,11 +6,8 @@
 
     <div class="container bg-white ">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-success btn-lg mt-4 mb-4" data-bs-toggle="modal" data-bs-target="#modalId">
-            Order Item
-        </button>
 
-        <a href="{{ route('orders.pending') }}" class="btn btn-warning btn-lg mt-4 mb-4">Old Pending Orders</a>
+        <a href="{{ route('orders.index') }}" class="btn btn-secondary btn-lg mt-4 mb-4">Order List</a>
         <!-- Modal -->
         <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -79,7 +76,7 @@
 
     {{-- Cards Table Start --}}
     <div class="row">
-        @foreach ($orders as $orderGroup)
+        @foreach ($pending as $orderGroup)
             <div class="card text-center col-6 mt-4 p-3">
                 <div class="card-header text-white bg-secondary">
                     <h4 class="text-white">{{ $orderGroup->first()->order->table->table_number }}</h4>
