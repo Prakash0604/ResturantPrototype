@@ -9,8 +9,42 @@
         <button type="button" class="btn btn-success btn-lg mt-4 mb-4" data-bs-toggle="modal" data-bs-target="#modalId">
             Order Item
         </button>
-
         <a href="{{ route('orders.pending') }}" class="btn btn-warning btn-lg mt-4 mb-4">Old Pending Orders</a>
+
+        <div class="container">
+            <form action="{{ route('orders.index') }}" method="get">
+                <div class="row">
+               <div class="mb-3 col-5">
+                <label for="" class="form-label">Starting Date</label>
+                <input
+                    type="date"
+                    name="start_date"
+                    id=""
+                    class="form-control"
+                    placeholder=""
+                    value="{{ request('start_date') }}"
+                    aria-describedby="helpId"
+                />
+               </div>
+               <div class="mb-3 col-5">
+                <label for="" class="form-label">Ending Date</label>
+                <input
+                    type="date"
+                    name="end_date"
+                    id=""
+                    class="form-control"
+                    placeholder=""
+                     value="{{ request('end_date') }}"
+                    aria-describedby="helpId"
+                />
+               </div>
+               <div class="mb-3 col-2 mt-2">
+               <button class="btn btn-primary mt-4">Filter</button>
+               <a href="{{ route('orders.index') }}" class="btn btn-secondary mt-4">Clear</a>
+            </div>
+            </div>
+            </form>
+        </div>
         <!-- Modal -->
         <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">

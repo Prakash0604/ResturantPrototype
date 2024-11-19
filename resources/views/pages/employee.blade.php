@@ -11,95 +11,26 @@
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>Employee table</h6>
+                        <h6 class="text-center">Employee table</h6>
                     </div>
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0">
+                        <div class="table-responsive">
+                            <table class="table table-striped align-items-center mb-0" id="fetch-user-data">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Image</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Employee Name</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Contact Info</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Status</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Designation</th>
+                                        <th class="text-uppercase text-secondary font-weight-bolder">S.N</th>
+                                        <th class="text-uppercase text-secondary font-weight-bolder">Image</th>
+                                        <th class="text-uppercase text-secondary font-weight-bolder">Employee Name</th>
+                                        <th class="text-uppercase text-secondary font-weight-bolder">Email</th>
+                                        <th class="text-uppercase text-secondary font-weight-bolder">Address</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Contact Number</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Designation</th>
                                         <th class="text-secondary opacity-7">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @forelse ($employees as $emp)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                        @if ($emp->images != '')
-                                                            <img src="{{ asset('storage/teams/' . $emp->images) }}"
-                                                                class="avatar avatar-sm" alt="user1" width="100" height="100">
-                                                        @elseif($emp->images != '')
-                                                            <img src="{{ asset('storage/images/' . $emp->images) }}"
-                                                                class="avatar avatar-sm me-3" alt="user1" width="100" height="100">
-                                                        @else
-                                                            <img src="{{ asset('default/user.png') }}"
-                                                                class="avatar avatar-sm me-3" alt="user1" width="100" height="100">
-                                                        @endif
-
-                                                    </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $emp->name }}</h6>
-                                                    <p class="text-xs text-secondary mb-0">{{ $emp->email }}</p>
-                                                </div>
-                        </div>
-                        </td>
-                        <td class="align-middle text-center text-sm">
-                            <div class="d-flex flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">{{ $emp->address }}</h6>
-                                <p class="text-xs text-secondary mb-0">{{ $emp->phone }}</p>
-                            </div>
-                        </td>
-
-                        <td class="align-middle text-center text-sm">
-                            @if ($emp->is_verified == 1)
-                                <span class="badge badge-sm bg-gradient-success">
-                                    Active
-                                </span>
-                            @else
-                                <span class="badge badge-sm bg-gradient-danger">
-                                    Inactive
-                                </span>
-                            @endif
-                        </td>
-                        <td class="align-middle text-center">
-                            <span class="text-secondary text-xs font-weight-bold">{{ $emp->designation }}</span>
-                        </td>
-                        <td class="align-middle">
-                            <a class="btn btn-primary text-white editEmployee" data-id="{{ $emp->id }}" data-bs-toggle="modal"
-                                data-bs-target="#editModal">Edit</a>
-                            <a class="btn btn-danger text-white deleteEmployee" data-id="{{ $emp->id }}" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">Delete</a>
-                        </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center">No data found</td>
-                        </tr>
-                        @endforelse
-                        </tbody>
                         </table>
-                        <div class="mt-4 ml-3">
-                            {{ $employees->links() }}
-                        </div>
+
                     </div>
-                </div>
             </div>
         </div>
     </div>
@@ -270,6 +201,23 @@
     <script>
         $(document).ready(function() {
             // e.preventDefault();
+            // Data Tables
+            $("#fetch-user-data").DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('employee.index') }}",
+                columns: [
+                    {data: "DT_RowIndex", name: "DT_RowIndex"},
+                    {data: "empImage", name: "empImage" },
+                    {data: "name", name: "name"},
+                    {data: "email",name: "email"},
+                    {data: "address",name: "address"},
+                    {data: "phone",name: "phone"},
+                    {data: "status", name: "status"},
+                    {data: "designation", name: "designation"},
+                    {data: "action",name: "action"}
+                ]
+            });
             $("#addEmployee").submit(function(e) {
                 e.preventDefault();
                 $("#btnsave").text("Saving...");

@@ -14,13 +14,52 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // Initialize the query for orders
+        $query = OrderItem::with(['Order', 'menu']);
+
+        // If both start_date and end_date are provided, filter by the date range
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $request->validate([
+                'start_date' => 'required|date',
+                'end_date' => 'required|date|after_or_equal:start_date',
+            ]);
+
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+
+            // Apply filtering by date range
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        } elseif ($request->has('start_date')) {
+            // If only start_date is provided, filter by that specific date
+            $request->validate(['start_date' => 'required|date']);
+            $startDate = $request->input('start_date');
+
+            $query->whereDate('created_at', $startDate);
+        } elseif ($request->has('end_date')) {
+            // If only end_date is provided, filter by that specific date
+            $request->validate(['end_date' => 'required|date']);
+            $endDate = $request->input('end_date');
+
+            $query->whereDate('created_at', $endDate);
+        } else {
+            // If no dates are provided, default to today's orders
+            $query->whereDate('created_at', date('Y-m-d'));
+        }
+
+        // Get the filtered orders and group them by order_id
+        $orders = $query->orderBy('id', 'desc')->get()->groupBy('order_id');
+
+        // Fetch tables and menus
         $tables = tabledata::where('status', 'Available')->get();
         $menus = menu_item::all();
-        $orders = OrderItem::with(['Order', 'menu'])->whereDate('created_at', date('Y-m-d'))->orderBy('id', 'desc')->get()->groupBy('order_id');
+
+        // Return the view with the filtered data
         return view('pages.orders', compact('tables', 'menus', 'orders'));
     }
+
+
 
 
     public function previousPending()
@@ -195,9 +234,43 @@ class OrderController extends Controller
         return view('pages.printBill', compact('bill'));
     }
 
-    public function listBills()
+    public function listBills(Request $request)
     {
-        $bills = Bill::with('order')->whereDate('created_at', date('Y-m-d'))->paginate(10);
+        $query = Bill::with('order');
+
+        // If both start_date and end_date are provided, filter by the date range
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $request->validate([
+                'start_date' => 'required|date',
+                'end_date' => 'required|date|after_or_equal:start_date',
+            ]);
+
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+
+            // Apply filtering by date range
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        } elseif ($request->has('start_date')) {
+            // If only start_date is provided, filter by that specific date
+            $request->validate(['start_date' => 'required|date']);
+            $startDate = $request->input('start_date');
+
+            $query->whereDate('created_at', $startDate);
+        } elseif ($request->has('end_date')) {
+            // If only end_date is provided, filter by that specific date
+            $request->validate(['end_date' => 'required|date']);
+            $endDate = $request->input('end_date');
+
+            $query->whereDate('created_at', $endDate);
+        } else {
+            // If no dates are provided, default to today's orders
+            $query->whereDate('created_at', date('Y-m-d'));
+        }
+
+        // Get the filtered orders and group them by order_id
+        $bills = $query->orderBy('id', 'desc')->paginate(10);
+
+        // $bills = Bill::with('order')->whereDate('created_at', date('Y-m-d'))->paginate(10);
         return view('pages.BillList', compact('bills'));
     }
 }

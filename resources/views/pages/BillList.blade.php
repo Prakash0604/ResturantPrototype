@@ -2,8 +2,42 @@
 @section('content')
 <div class="container mt-5">
     <h2 class="text-dark text-center">Bill List</h2>
+    <div class="container bg-white">
+        <form action="{{ route('bills.index') }}" method="get">
+            <div class="row">
+           <div class="mb-3 col-5">
+            <label for="" class="form-label">Starting Date</label>
+            <input
+                type="date"
+                name="start_date"
+                id=""
+                class="form-control"
+                placeholder=""
+                value="{{ request('start_date') }}"
+                aria-describedby="helpId"
+            />
+           </div>
+           <div class="mb-3 col-5">
+            <label for="" class="form-label">Ending Date</label>
+            <input
+                type="date"
+                name="end_date"
+                id=""
+                class="form-control"
+                placeholder=""
+                 value="{{ request('end_date') }}"
+                aria-describedby="helpId"
+            />
+           </div>
+           <div class="mb-3 col-2 mt-2">
+           <button class="btn btn-primary mt-4">Filter</button>
+           <a href="{{ route('bills.index') }}" class="btn btn-secondary mt-4">Clear</a>
+        </div>
+        </div>
+        </form>
+    </div>
     <div
-        class="table-responsive"
+        class="table-responsive mt-3"
     >
         <table
             class="table table-primary"
