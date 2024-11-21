@@ -44,7 +44,7 @@ Route::middleware('is_admin')->group(function () {
     Route::post('/admin/profile', [AdminController::class, 'updateprofile']);
 
 
-    Route::get('/admin/add/menu', [AdminController::class, 'addMenu']);
+    Route::get('/admin/add/menu', [AdminController::class, 'addMenu'])->name('admin.menu_item');
     Route::post('/admin/add/item', [AdminController::class, 'additem']);
     Route::get('/admin/edit/item/{id}', [AdminController::class, 'editMenu']);
     Route::post('/admin/edit/item/', [AdminController::class, 'updateMenu']);
@@ -52,10 +52,11 @@ Route::middleware('is_admin')->group(function () {
 
 
     Route::post('/admin/add/category', [AdminController::class, 'addCategory']);
-    Route::get('/admin/category/list', [AdminController::class, 'showCategory']);
+    Route::get('/admin/category/list', [AdminController::class, 'showCategory'])->name('admin.category');
     Route::get('/admin/category/edit/{id}', [AdminController::class, 'editCat']);
     Route::post('/admin/category/edit/', [AdminController::class, 'updateCat']);
     Route::get('/admin/category/delete/{id}', [AdminController::class, 'deleteCat']);
+    Route::get('/admin/category/status/update/{id}', [AdminController::class, 'statusCategory']);
 
 
     Route::get('/admin/event/list', [AdminController::class, 'event']);
@@ -70,6 +71,7 @@ Route::middleware('is_admin')->group(function () {
     Route::get('/admin/employee/edit/{id}', [AdminController::class, 'editEmployee']);
     Route::post('/admin/employee/edit/', [AdminController::class, 'updateEmployee']);
     Route::get('/admin/employee/delete/{id}', [AdminController::class, 'deleteEmployee']);
+    Route::get('/admin/employee/status/update/{id}', [AdminController::class, 'statusEmployee']);
 
     Route::get('/admin/table', [AdminController::class, 'Tabledata']);
     Route::post('/admin/table/add', [AdminController::class, 'addTabledata']);

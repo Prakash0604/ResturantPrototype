@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 
 use PHPUnit\Framework\fileExists;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\Calculation\Category as CalculationCategory;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdminController extends Controller
@@ -88,16 +89,34 @@ class AdminController extends Controller
     // ================Menu Controller Start=======================
     public function addMenu(Request $request)
     {
-        $search = $request->search;
-        $category = category::all();
-        // if($search!=""){
-        //     $menuitems=menu_item::where('category',$search)->get();
+        $category = category::where('status',1)->get();
+        if ($request->ajax()) {
+            $menuitems = menu_item::with('category')->orderBy('id', 'desc')->get();
+            return DataTables::of($menuitems)
+                ->addIndexColumn()
+                ->addColumn('image', function ($image) {
+                    if ($image->images != null) {
+                        $imagepath = asset('storage/food/' . $image->images);
+                    } else {
+                        $imagepath = asset('default/user.png');
+                    }
 
-        // }else{
-
-        $menuitems = menu_item::with('category')->paginate(4);
+                    // return " <img src='$imagepath' class='avatar avatar-sm' alt='user1' width='200' height='200/>";
+                    return "<img src='$imagepath' class='avatar avatar-sm img-thumbnail' alt='user1' width='100' height='100'>";
+                })
+                ->addColumn('category', function ($cat) {
+                    return $cat->category->name;
+                })
+                ->addColumn('action', function ($item) {
+                    $btn = '<button type="button" class="btn btn-primary mr-2 editMenu" data-id="' . $item->id . '" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>';
+                    $btn .= '<button type="button" class="btn btn-danger deleteMenu" data-id="' . $item->id . '" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>';
+                    return $btn;
+                })
+                ->rawColumns(['image', 'action'])
+                ->make(true);
+        }
         // }
-        return view('pages.menu-item', compact('category', 'menuitems'));
+        return view('pages.menu-item', compact('category'));
     }
 
     public function additem(Request $request)
@@ -193,13 +212,44 @@ class AdminController extends Controller
         }
     }
 
-    public function showCategory()
+    public function showCategory(Request $request)
     {
-        $categories = category::all();
+        if ($request->ajax()) {
+            $categories = category::orderBy('id','desc')->get();
+            return DataTables::of($categories)
+                ->addIndexColumn()
+                ->addColumn('action', function ($item) {
+                    $btn = '<button type="button" class="btn btn-primary mr-2 editcat" data-id="' . $item->id . '" data-bs-toggle="modal" data-bs-target="#editCat">Edit</button>';
+                    $btn .= '<button type="button" class="btn btn-danger deletecat" data-id="' . $item->id . '" data-bs-toggle="modal" data-bs-target="#deleteCat">Delete</button>';
+                    return $btn;
+                })
+                ->addColumn('status', function ($status) {
+                    return '<div class="form-check form-switch mx-auto">
+                <input class="form-check-input mx-auto statusCheckBoxBtn" data-id="' . $status->id . '" type="checkbox" role="switch" id="flexSwitchCheckDefault" ' . ($status->status ? 'checked' : '') . '>
+             </div>';
+                })
+                ->rawColumns(['action', 'status'])
+                ->make(true);
+        }
 
-        return view('pages.categorylist', compact('categories'));
+        return view('pages.categorylist');
     }
 
+    public function statusCategory($id)
+    {
+        try {
+            $cat = category::find($id);
+            if ($cat->status == 1) {
+                $cat->status = 0;
+            } else {
+                $cat->status = 1;
+            }
+            $cat->save();
+            return response()->json(['success' => true], 200);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
     public function editcat($id)
     {
         $cat = category::find($id);
@@ -324,7 +374,7 @@ class AdminController extends Controller
     public function Employeelist(Request $request)
     {
         if ($request->ajax()) {
-            $employees = User::where('position', 'employee')->get();
+            $employees = User::all();
             return DataTables::of($employees)
                 ->addIndexColumn()
                 ->addColumn('empImage', function ($image) {
@@ -344,13 +394,30 @@ class AdminController extends Controller
                 })
                 ->addColumn('status', function ($status) {
                     return '<div class="form-check form-switch mx-auto">
-                    <input class="form-check-input mx-auto" data-id="' . $status->id . '" type="checkbox" role="switch" id="flexSwitchCheckDefault" ' . ($status->is_verified ? 'checked' : '') . '>
+                    <input class="form-check-input mx-auto statusCheckBoxBtn" data-id="' . $status->id . '" type="checkbox" role="switch" id="flexSwitchCheckDefault" ' . ($status->is_verified ? 'checked' : '') . '>
                  </div>';
                 })
                 ->rawColumns(['action', 'empImage', 'status'])
                 ->make(true);
         };
         return view('pages.employee');
+    }
+
+    // Status Update
+    public function statusEmployee($id)
+    {
+        try {
+            $user = User::find($id);
+            if ($user->is_verified == 1) {
+                $user->is_verified = 0;
+            } else {
+                $user->is_verified = 1;
+            }
+            $user->save();
+            return response()->json(['success' => true], 200);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
     }
 
 

@@ -75,14 +75,17 @@
                     </div>
                 </div>
                 <div class="card mb-4">
-                    <div class="card-header pb-0">
+                    <div class="card-header">
                         <h6>Menu Item</h6>
                     </div>
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <table class="table align-items-center mb-0 table-bordered">
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-striped mb-0 table-bordered" id="fetch-menu-item-detail">
                                 <thead>
                                     <tr>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            S.N
+                                        </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Image
@@ -103,66 +106,8 @@
                                         <th class="text-secondary opacity-7">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @forelse ($menuitems as $menu)
-                                        <tr>
-
-                                            {{-- @php
-                                                dd($menu);
-                                            @endphp --}}
-                                            <td class="align-middle text-center text-sm">
-                                                <div>
-                                                    @if ($menu->images != '')
-                                                        <img src="{{ asset('storage/food/' . $menu->images) }}"
-                                                            class="avatar avatar-sm me-3" alt="user1" width="100" height="100">
-                                                    @else
-                                                        <img src="{{ asset('default/user.png') }}"
-                                                            class="avatar avatar-sm me-3" alt="user1" width="100" height="100">
-                                                    @endif
-                                                </div>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <h6>
-                                                    {{ $menu->name }}
-                                                </h6>
-                                            </td>
-                                            <td class="align-middle text-center text-sm">
-                                                <h6>{{ $menu->description }}</h6>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <h6>{{ $menu->price }} Rs</h6>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span
-                                                    class="text-secondary text-dark badge badge-pill bg-gradient-success font-weight-bold">
-                                                    @if ($menu->category)
-                                                        {{ $menu->category->name }}
-                                                        @else
-                                                        Category Not assigned
-                                                    @endif
-                                                </span>
-                                            </td>
-                                            <td class="align-middle">
-                                                <a href="" class="btn btn-primary editMenu"
-                                                    data-id="{{ $menu->id }}" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal">Edit</a>
-                                                <a href="" class="btn btn-danger deleteMenu"
-                                                    data-id="{{ $menu->id }}" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal">Delete</a>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                        <td colspan="5" class="text-center">No data found</td>
-                    </tr>
-                                    @endforelse
-                                </tbody>
                             </table>
                         </div>
-                        <div class="mt-3 ml-3">
-                            {{ $menuitems->links() }}
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -231,36 +176,38 @@
 
     {{-- ===============================Edit Modal End ==================================== --}}
 
-      <!--Delete Modal-->
-      <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <form id="deleteMenu" enctype="multipart/form-data">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="modalTitleId">
-                          Delete Item
-                      </h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      @csrf
-                      <h4 class="text-danger">Are you sure you want to delete ?</h4>
-                      </div>
-                   <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                          Close
-                      </button>
-                      <button type="submit" class="btn btn-primary btnDeleteConfirm" id="btnDelete">Confirm Delete</button>
-                  </div>
-              </form>
-              </div>
-          </div>
-      </div>
   </div>
   <!--Delete Modal-->
     <script>
         $(document).ready(function() {
+
+            // DataTable
+           var table= $("#fetch-menu-item-detail").DataTable({
+                serverSide:true,
+                processing:true,
+                ajax:"{{ route('admin.menu_item') }}",
+                columns:[
+                    {
+                        data:"DT_RowIndex", name:"DT_RowIndex"
+                    },{
+                        data:"image", name:"image"
+                    },{
+                        data:"name",name:"name"
+                    },{
+                        data:"description",name:"description"
+                    },{
+                        data:"price", name:"price"
+                    },{
+                        data:"category", name:"category"
+                    },
+                    {
+                        data:"action", name:"action"
+                    }
+                ]
+            })
+
+
+
             $("#add_item").submit(function(e) {
                 e.preventDefault();
                 $("#btnsave").text("Saving...");
@@ -286,17 +233,19 @@
                                 showconfirmButton: false,
                                 timer: 1500,
                             });
-                            setTimeout(() => {
-                                location.realod();
-                            }, 1500);
+                           table.draw();
+                           $("#modalId").modal("hide");
+                           $("#add_item")[0].reset();
                         }
                         if (data.success == false) {
                             Swal.fire({
                                 icon: "error",
                                 title: data.message,
-                                showConfirmButton: false,
+                                // showConfirmButton: false,
 
                             });
+
+                            $("#add_item")[0].reset();
                             $("#btnsave").prop("disabled", false);
                             $("#btnsave").text("Save");
                         }
@@ -346,9 +295,8 @@
                             $("input[type='text']").val("");
                             $("input[type='file']").val("");
                             $("input[type='textarea']").val("");
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1500);
+                            table.draw();
+                            $("#editModal").modal("hide");
                         }
                         if(data.success==false){
                             Swal.fire({
@@ -366,17 +314,22 @@
             });
             $(document).on("click",".deleteMenu",function(){
                     var id=$(this).attr("data-id");
-                    // console.log(id);
+                    console.log(id);
                     // let input=$("#catid").val(id);
                     // console.log(input);
-                    $("#deleteMenu").submit(function(e){
-                        e.preventDefault();
-                        $(".btnDeleteConfirm").text("Deleting...");
-                        $(".btnDeleteConfirm").prop("disabled",true);
-                        // var id=$(this).serialize;
-                        $.ajax({
+                    Swal.fire({
+                        icon:"warning",
+                        title:"Are you Sure ?",
+                        text:"You won't be able to revert this !",
+                        showCancelButton:true,
+                        confirmButtonColor:"#3085d6",
+                        confirmButtonText:"Yes,Delete it !",
+                        cancelButtonColor:"#d33"
+                    }).then((result)=>{
+                        if(result.isConfirmed){
+                            $.ajax({
                             method:"get",
-                            url:"{{ url('/admin/item/delete/') }}/"+id,
+                            url:"/admin/item/delete/"+id,
                             success:function(data){
                                 // console.log(data);
                                 if(data.success==true){
@@ -386,9 +339,7 @@
                                         showConfirmButton:false,
                                         timer:1500,
                                     });
-                                    setTimeout(() => {
-                                        location.reload();
-                                    }, 1500);
+                                   table.draw();
                                 }
                                 if(data.success==false){
                                     Swal.fire({
@@ -401,9 +352,13 @@
                                     $(".btnDeleteConfirm").prop("disabled",false);
                                      $(".btnDeleteConfirm").text("Confirm Delete");
                                 }
-                            }
-                        })
+                            },
+                            error:function(xhr){
+                                console.log(xhr);
 
+                            }
+                        });
+                        }
                     })
                 })
         });

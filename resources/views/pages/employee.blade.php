@@ -163,46 +163,11 @@
 
     {{-- ==================================Employee Edit Modal End==================================== --}}
 
-
-    {{-- ==================================Employee Delete Modal Start==================================== --}}
-
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form id="deleteEmployee">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitleId">
-                            Delete Employee
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            @csrf
-                            <h5>Are you sure your want to delete ?</h5>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                        <button type="submit" class="btn btn-danger" id="btnDelete"> <i class="bi bi-floppy2-fill"></i>
-                            Confirm Delete</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    {{-- ==================================Employee Delete Modal End==================================== --}}
-
-
-
     <script>
         $(document).ready(function() {
             // e.preventDefault();
             // Data Tables
-            $("#fetch-user-data").DataTable({
+            var table=$("#fetch-user-data").DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('employee.index') }}",
@@ -322,16 +287,23 @@
                 });
             });
             // ==========================Update Data in Edit Modal End======================================
+
             // ==========================Delete Data in Delete Modal Start======================================
             $(document).on("click", ".deleteEmployee", function() {
                 var id = $(this).attr("data-id");
-                $("#deleteEmployee").submit(function(e) {
-                    e.preventDefault();
-                    $("#btnDelete").prop("disabled", true);
-                    $("#btnDelete").text("Deleting...");
-                    $.ajax({
+                Swal.fire({
+                    icon:"warning",
+                    title:"Are you Sure ?",
+                    text:"You won't be able to rever this!",
+                    showCancelButton:true,
+                    confirmButtonText:"Yes,Delete it!",
+                    confirmButtonColor:"#3085d6",
+                    cancelButtonColor:"#d33"
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        $.ajax({
                         method: "get",
-                        url: "{{ url('admin/employee/delete') }}/" + id,
+                        url: '/admin/employee/delete/' + id,
                         success: function(data) {
                             // console.log(data);
                             if (data.success == true) {
@@ -341,9 +313,7 @@
                                     showConfirmButton: false,
                                     timer: 1500,
                                 });
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 1500);
+                               table.draw();
                             }
                             if (data.success == false) {
                                 Swal.fire({
@@ -357,9 +327,25 @@
                             }
                         }
                     })
+                    }
                 })
             })
             // ==========================Delete Data in Delete Modal Start======================================
+
+            // Status Toggle Button
+            $(document).on("click",".statusCheckBoxBtn",function(){
+                let id=$(this).attr("data-id");
+                $.ajax({
+                    type:"get",
+                    url:"/admin/employee/status/update/"+id,
+                    success:function(response){
+                        table.draw();
+                    },
+                    error:function(xhr){
+                        console.log(xhr);
+                    }
+                })
+            })
         });
     </script>
 @endsection
