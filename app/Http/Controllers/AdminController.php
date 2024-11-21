@@ -518,10 +518,20 @@ class AdminController extends Controller
     }
     // =======Teams Member End ===================
 
-    public function Tabledata()
+    public function Tabledata(Request $request)
     {
-        $tabledatas = tabledata::paginate(5);
-        return view('pages.booktable', compact('tabledatas'));
+        if($request->ajax()){
+            $tabledatas = tabledata::orderBy('id','desc')->get();
+            return DataTables::of($tabledatas)
+            ->addIndexColumn()
+            ->addColumn('action', function ($item) {
+                // $btn = '<button type="button" class="btn btn-primary mr-2 editEmployee" data-id="' . $item->id . '" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>';
+                return  '<button type="button" class="btn btn-danger deleteTable" data-id="' . $item->id . '" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+        return view('pages.booktable');
     }
     public function addTabledata(Request $request)
     {

@@ -73,7 +73,7 @@ Route::middleware('is_admin')->group(function () {
     Route::get('/admin/employee/delete/{id}', [AdminController::class, 'deleteEmployee']);
     Route::get('/admin/employee/status/update/{id}', [AdminController::class, 'statusEmployee']);
 
-    Route::get('/admin/table', [AdminController::class, 'Tabledata']);
+    Route::get('/admin/table', [AdminController::class, 'Tabledata'])->name('admin.table');
     Route::post('/admin/table/add', [AdminController::class, 'addTabledata']);
     Route::get('/admin/table/delete/{id}', [AdminController::class, 'deleteTabledata']);
 

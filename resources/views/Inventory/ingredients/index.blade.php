@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2 class="text-center-">Ingredients Inventory</h2>
+        <h2 class="text-center">Ingredients Inventory</h2>
 
         <!-- Button to trigger the modal -->
         <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#ingredientModal">
@@ -10,37 +10,19 @@
         </button>
 
         <!-- Ingredients Table -->
-        <table class="table mt-3 table-bordered">
-            <thead>
-                <tr>
-                    <th>S.N</th>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Unit</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="ingredientTable">
-                @php
-                    $n=1;
-                @endphp
-                @forelse ($ingredients as $ingredient)
-                    <tr id="ingredient-{{ $ingredient->id }}">
-                        <td>{{ $n++ }}</td>
-                        <td>{{ $ingredient->name }}</td>
-                        <td>{{ $ingredient->quantity }}</td>
-                        <td>{{ $ingredient->unit }}</td>
-                        <td>
-                            <button class="btn btn-danger btn-sm delete-btn" data-id="{{ $ingredient->id }}">Delete</button>
-                        </td>
-                    </tr>
-                    @empty
+        <div class="card p-2 mt-3">
+            <table class="table mt-3 table-striped" id="fetch-ingrediance-list">
+                <thead>
                     <tr>
-                        <td colspan="5" class="text-center">No data found</td>
+                        <th>S.N</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Actions</th>
                     </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+            </table>
+        </div>
 
         <!-- Modal for Adding Ingredient -->
         <div class="modal fade" id="ingredientModal" tabindex="-1" aria-labelledby="ingredientModalLabel"
@@ -80,11 +62,34 @@
 
     <script>
         $(document).ready(function() {
+           var table= $("#fetch-ingrediance-list").DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('ingredients.index') }}",
+                columns: [{
+                        data: "DT_RowIndex",
+                        name: "DT_RowIndex"
+                    },
+                    {
+                        data: "name",
+                        name: "name"
+                    }, {
+                        data: "quantity",
+                        name: "quality"
+                    }, {
+                        data: "unit",
+                        name: "unit"
+                    }, {
+                        data: "action",
+                        name: "action"
+                    }
+                ]
+            })
             // Submit the ingredient form using AJAX
             $('#ingredientForm').on('submit', function(e) {
                 e.preventDefault();
                 $("#ingredientsadd").text("Saving...");
-                $("#ingredientsadd").prop("disabled",true);
+                $("#ingredientsadd").prop("disabled", true);
 
                 $.ajax({
                     url: "{{ route('ingredients.store') }}",
@@ -100,9 +105,9 @@
                                 timer: 1500
                             });
 
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1500);
+                           table.draw();
+                           $("#ingredientForm")[0].reset();
+                           $("#ingredientModal").modal("hide");
 
                         } else {
                             Swal.fire({
@@ -119,45 +124,50 @@
             });
 
             // Delete ingredient
-            $('.delete-btn').on('click', function() {
-                if (confirm('Are you sure you want to delete this ingredient?')) {
-                    let id = $(this).data('id');
+            $(document).on('click',".deleteIngrediance", function() {
+                let id = $(this).data('id');
+                Swal.fire({
+                    icon: "warning",
+                    title: "Are you Sure ?",
+                    text: "You won't be able to rever this!",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Yes,Delete it !",
+                    cancelButtonColor: "#d33",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/admin/ingredients/' + id,
+                            method: 'DELETE',
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success: function(response) {
+                                // alert(response.success);
+                                if (response.success == true) {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Ingredient deleted successfully",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                   table.draw();
 
-                    $.ajax({
-                        url: '/admin/ingredients/' + id,
-                        method: 'DELETE',
-                        data: {
-                            _token: "{{ csrf_token() }}"
-                        },
-                        success: function(response) {
-                            // alert(response.success);
-                            if (response.success == true) {
-                            Swal.fire({
-                                icon: "success",
-                                title: "Ingredient deleted successfully",
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
+                                } else {
+                                    Swal.fire({
+                                        icon: "warning",
+                                        title: "Something went wrong ?",
+                                    });
+                                    $("#ingredientsadd").text("Save");
+                                    $("#ingredientsadd").prop("disabled", false);
+                                }
 
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1500);
+                                $('#ingredient-' + id).remove();
+                            }
+                        });
+                    }
+                })
 
-                        } else {
-                            Swal.fire({
-                                icon: "warning",
-                                title: "Something went wrong ?",
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                            $("#ingredientsadd").text("Save");
-                            $("#ingredientsadd").prop("disabled", false);
-                        }
-
-                            $('#ingredient-' + id).remove();
-                        }
-                    });
-                }
             });
         });
     </script>
