@@ -123,6 +123,7 @@
                         <table class="table table-primary text-center table-bordered">
                             <thead>
                                 <tr>
+                                    <th scope="col">Image</th>
                                     <th scope="col">Menu Items</th>
                                     <th>Rate</th>
                                 </tr>
@@ -130,6 +131,7 @@
                             <tbody>
                                 @foreach ($orderGroup as $order)
                                     <tr class="">
+                                        <td scope="row"><img src="/storage/food/{{ $order->menu->images }}" height="100" width="100" alt="" srcset=""></td>
                                         <td scope="row">{{ $order->menu->name }}</td>
                                         <td scope="row">{{ $order->menu->price }}</td>
                                     </tr>
@@ -246,6 +248,7 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>Image</th>
                                         <th>Menu Item</th>
                                         <th>Rate</th>
                                     </tr>
@@ -537,10 +540,14 @@
                             subTotal += parseFloat(item.menu.price); // Calculate subTotal
                             $('#billItemsContainer').append(
                                 `<tr>
+                                    <td>
+                                        <img src="/storage/food/${item.menu.images}" class="img-thumbnail" width="100" height="100">
+                                    </td>
                             <td>
                                 <input type="hidden" name="getTableid" value="${table_id}">
                                 <input type="hidden" name="tables_id[]" value="${item.order.id}">
                                 <input type="hidden" name="menus_id[]" value="${item.menu.id}">
+
                                  <input type="text" class="form-control"  value="${item.menu.name}" readonly/>
                             </td>
                             <td> <input type="number" class="form-control" name="price[]"  value="${item.menu.price}" readonly/></td>

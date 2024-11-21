@@ -4,12 +4,12 @@
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
-                <button type="button" class="btn btn-primary text-white btn-lg bg-gray-100" data-bs-toggle="modal"
+                <button type="button" class="btn btn-primary text-white btn-lg bg-gray-100 mt-3 mb-3" data-bs-toggle="modal"
                     data-bs-target="#addCategory">
                     <i class="bi bi-plus-lg"></i>
                     Add Category
                 </button>
-                <a href="{{ url('admin/add/menu') }}" class="btn btn-primary text-white btn-lg bg-gray-100">
+                <a href="{{ url('admin/add/menu') }}" class="btn btn-primary text-white mt-3 mb-3 btn-lg bg-gray-100">
                     <i class="bi bi-arrow-left-circle"></i>
                     View Menu
                 </a>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
-                            <table class="table align-items-center table-striped mb-0" id="fetch-category-list">
+                            <table class="table align-items-center table-bordered table-striped mb-0" id="fetch-category-list">
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary font-weight-bolder opacity-4">
