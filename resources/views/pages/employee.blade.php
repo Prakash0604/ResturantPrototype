@@ -219,6 +219,10 @@
                             $("#btnsave").prop("disabled", false);
                             $("#btnsave").text("Save");
                         }
+                    },
+                    complete: function() {
+                        ("#btnsave").text("Save");
+                        $("#btnsave").prop("disabled", false);
                     }
                 });
             });

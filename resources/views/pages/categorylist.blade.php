@@ -171,6 +171,10 @@
                             $("#btnsave").text("Save");
                             $("#btnsave").prop("disabled", false);
                         }
+                    },
+                    complete: function() {
+                        ("#btnsave").text("Save");
+                        $("#btnsave").prop("disabled", false);
                     }
                 })
             });

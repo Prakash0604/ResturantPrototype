@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-12">
                 <button type="button" class="btn btn-success btn-lg bg-gray-100 mt-3 mb-3" data-bs-toggle="modal"
-                data-bs-target="#modalId">
+                    data-bs-target="#modalId">
                     <i class="bi bi-plus-lg"></i>
                     Add Item
                 </button>
@@ -78,36 +78,37 @@
                     <div class="card-header">
                         <h6>Menu Item</h6>
                     </div>
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-striped mb-0 table-bordered" id="fetch-menu-item-detail">
-                                <thead>
-                                    <tr>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            S.N
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Image
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            name</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Description
-                                        </th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Price
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Category</th>
-                                        <th class="text-secondary opacity-7">Action</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-striped mb-0 table-bordered"
+                            id="fetch-menu-item-detail">
+                            <thead>
+                                <tr>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        S.N
+                                    </th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Image
+                                    </th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        name</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Description
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Price
+                                    </th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Category</th>
+                                    <th class="text-secondary opacity-7">Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -115,8 +116,7 @@
 
 
     {{-- ===============================Edit Modal Start ==================================== --}}
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-        aria-hidden="true">
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form id="updateItem" enctype="multipart/form-data">
@@ -176,32 +176,38 @@
 
     {{-- ===============================Edit Modal End ==================================== --}}
 
-  </div>
-  <!--Delete Modal-->
+    </div>
+    <!--Delete Modal-->
     <script>
         $(document).ready(function() {
 
             // DataTable
-           var table= $("#fetch-menu-item-detail").DataTable({
-                serverSide:true,
-                processing:true,
-                ajax:"{{ route('admin.menu_item') }}",
-                columns:[
-                    {
-                        data:"DT_RowIndex", name:"DT_RowIndex"
-                    },{
-                        data:"image", name:"image"
-                    },{
-                        data:"name",name:"name"
-                    },{
-                        data:"description",name:"description"
-                    },{
-                        data:"price", name:"price"
-                    },{
-                        data:"category", name:"category"
+            var table = $("#fetch-menu-item-detail").DataTable({
+                serverSide: true,
+                processing: true,
+                ajax: "{{ route('admin.menu_item') }}",
+                columns: [{
+                        data: "DT_RowIndex",
+                        name: "DT_RowIndex"
+                    }, {
+                        data: "image",
+                        name: "image"
+                    }, {
+                        data: "name",
+                        name: "name"
+                    }, {
+                        data: "description",
+                        name: "description"
+                    }, {
+                        data: "price",
+                        name: "price"
+                    }, {
+                        data: "category",
+                        name: "category"
                     },
                     {
-                        data:"action", name:"action"
+                        data: "action",
+                        name: "action"
                     }
                 ]
             })
@@ -233,9 +239,10 @@
                                 showconfirmButton: false,
                                 timer: 1500,
                             });
-                           table.draw();
-                           $("#modalId").modal("hide");
-                           $("#add_item")[0].reset();
+                            table.draw();
+                            $("#modalId").modal("hide");
+                            $("#btnsave").prop("disabled", false);
+                            $("#add_item").trigger('reset');
                         }
                         if (data.success == false) {
                             Swal.fire({
@@ -249,6 +256,10 @@
                             $("#btnsave").prop("disabled", false);
                             $("#btnsave").text("Save");
                         }
+                    },
+                    complete: function() {
+                        ("#btnsave").text("Save");
+                        $("#btnsave").prop("disabled", false);
                     }
                 })
             });
@@ -276,21 +287,21 @@
                 e.preventDefault();
                 $("#btnupdate").text("Updating...");
                 $("#btnupdate").prop("disabled", true);
-                var formdata=new FormData(this);
+                var formdata = new FormData(this);
                 $.ajax({
-                    method:"POST",
-                    url:"{{ url('admin/edit/item') }}",
-                    data:formdata,
-                    processData:false,
-                    contentType:false,
-                    success:function(data){
+                    method: "POST",
+                    url: "{{ url('admin/edit/item') }}",
+                    data: formdata,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
                         console.log(data);
-                        if(data.success==true){
+                        if (data.success == true) {
                             Swal.fire({
-                                icon:"success",
-                                title:"Menu Updated Successfully",
-                                showconfirmButton:false,
-                                timer:1500,
+                                icon: "success",
+                                title: "Menu Updated Successfully",
+                                showconfirmButton: false,
+                                timer: 1500,
                             });
                             $("input[type='text']").val("");
                             $("input[type='file']").val("");
@@ -298,69 +309,69 @@
                             table.draw();
                             $("#editModal").modal("hide");
                         }
-                        if(data.success==false){
+                        if (data.success == false) {
                             Swal.fire({
-                                icon:"warning",
-                                title:data.message,
-                                showConfirmButton:false,
-                                timer:1500,
+                                icon: "warning",
+                                title: data.message,
+                                showConfirmButton: false,
+                                timer: 1500,
                             });
-                            $("#updatebtn").prop("disabled",false);
+                            $("#updatebtn").prop("disabled", false);
                             $("#updatebtn").text("Update");
                         }
                     }
                 })
 
             });
-            $(document).on("click",".deleteMenu",function(){
-                    var id=$(this).attr("data-id");
-                    console.log(id);
-                    // let input=$("#catid").val(id);
-                    // console.log(input);
-                    Swal.fire({
-                        icon:"warning",
-                        title:"Are you Sure ?",
-                        text:"You won't be able to revert this !",
-                        showCancelButton:true,
-                        confirmButtonColor:"#3085d6",
-                        confirmButtonText:"Yes,Delete it !",
-                        cancelButtonColor:"#d33"
-                    }).then((result)=>{
-                        if(result.isConfirmed){
-                            $.ajax({
-                            method:"get",
-                            url:"/admin/item/delete/"+id,
-                            success:function(data){
+            $(document).on("click", ".deleteMenu", function() {
+                var id = $(this).attr("data-id");
+                console.log(id);
+                // let input=$("#catid").val(id);
+                // console.log(input);
+                Swal.fire({
+                    icon: "warning",
+                    title: "Are you Sure ?",
+                    text: "You won't be able to revert this !",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Yes,Delete it !",
+                    cancelButtonColor: "#d33"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: "get",
+                            url: "/admin/item/delete/" + id,
+                            success: function(data) {
                                 // console.log(data);
-                                if(data.success==true){
+                                if (data.success == true) {
                                     Swal.fire({
-                                        icon:"success",
-                                        title:"Menu deleted",
-                                        showConfirmButton:false,
-                                        timer:1500,
+                                        icon: "success",
+                                        title: "Menu deleted",
+                                        showConfirmButton: false,
+                                        timer: 1500,
                                     });
-                                   table.draw();
+                                    table.draw();
                                 }
-                                if(data.success==false){
+                                if (data.success == false) {
                                     Swal.fire({
-                                        icon:"error",
-                                        title:"Unable to delete ",
-                                        text:"Alredy tagged in another menu",
-                                        showConfirmButton:false,
-                                        timer:1500
+                                        icon: "error",
+                                        title: "Unable to delete ",
+                                        text: "Alredy tagged in another menu",
+                                        showConfirmButton: false,
+                                        timer: 1500
                                     });
-                                    $(".btnDeleteConfirm").prop("disabled",false);
-                                     $(".btnDeleteConfirm").text("Confirm Delete");
+                                    $(".btnDeleteConfirm").prop("disabled", false);
+                                    $(".btnDeleteConfirm").text("Confirm Delete");
                                 }
                             },
-                            error:function(xhr){
+                            error: function(xhr) {
                                 console.log(xhr);
 
                             }
                         });
-                        }
-                    })
+                    }
                 })
+            })
         });
     </script>
 @endsection

@@ -124,7 +124,7 @@ class AdminController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|min:3',
-                'images' => 'mimes:jpeg,jpg,png',
+                'images' => 'mimes:jpeg,jpg,png,webp',
                 'description' => 'required',
                 'price' => 'required|numeric',
             ]);
