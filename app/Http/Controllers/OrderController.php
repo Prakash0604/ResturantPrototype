@@ -28,22 +28,8 @@ class OrderController extends Controller
 
             $startDate = $request->input('start_date');
             $endDate = $request->input('end_date');
-
-            // Apply filtering by date range
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        } elseif ($request->has('start_date')) {
-            // If only start_date is provided, filter by that specific date
-            $request->validate(['start_date' => 'required|date']);
-            $startDate = $request->input('start_date');
-
-            $query->whereDate('created_at', $startDate);
-        } elseif ($request->has('end_date')) {
-            // If only end_date is provided, filter by that specific date
-            $request->validate(['end_date' => 'required|date']);
-            $endDate = $request->input('end_date');
-
-            $query->whereDate('created_at', $endDate);
-        } else {
+            $query->whereBetween('created_at',[$startDate,$endDate]);
+        }else {
             // If no dates are provided, default to today's orders
             $query->whereDate('created_at', date('Y-m-d'));
         }

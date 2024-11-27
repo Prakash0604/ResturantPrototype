@@ -154,6 +154,10 @@
                             $("#btnsave").prop("disabled", false);
                         }
 
+                    },
+                    complete: function() {
+                        ("#btnsave").text("Save");
+                        $("#btnsave").prop("disabled", false);
                     }
                 })
             });
@@ -184,13 +188,13 @@
                                         showConfirmButton: false,
                                         timer: 1500
                                     });
-                                  table.draw();
+                                    table.draw();
                                 }
                                 if (data.success == false) {
                                     Swal.fire({
                                         icon: "warning",
                                         title: "Something Went Wrong !",
-                                        text:"Already Tagged in another module !"
+                                        text: "Already Tagged in another module !"
                                     });
                                     $("#btndelete").text("Confirm Delete");
                                     $("#btndelete").prop("disabled", false);
